@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {NavigationLink} from '@/components/shared/navigation-link';
 import {NavbarCollections} from '@/components/layout/navbar/navbar-collections';
 import {NavbarCart} from '@/components/layout/navbar/navbar-cart';
@@ -21,8 +20,9 @@ export function Navbar() {
                         <Suspense>
                             <MobileNavWrapper />
                         </Suspense>
-                        <NavigationLink href="/" className="text-xl font-bold">
-                            <Image src="/vendure.svg" alt="Vendure" width={40} height={27} className="h-6 w-auto dark:invert" />
+                        <NavigationLink href="/" className="text-xl font-bold flex items-center gap-2">
+                            <span className="text-primary">IoT</span>
+                            <span className="font-semibold">Hub</span>
                         </NavigationLink>
                         <nav className="hidden md:flex items-center gap-6">
                             <Suspense>

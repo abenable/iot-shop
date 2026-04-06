@@ -17,9 +17,9 @@
     "switchCurrency": "Währung wechseln"
   },
   "Hero": {
-    "title": "Entdecke hochwertige",
-    "titleHighlight": "Produkte",
-    "subtitle": "Hochwertige Produkte zu außergewöhnlichen Preisen. Kostenloser Versand ab 50 €.",
+    "title": "Baue Dein nächstes",
+    "titleHighlight": "IoT-Projekt",
+    "subtitle": "Qualitätselektronik-Komponenten für Maker und Profis. Kostenlose Abholung in Kampala möglich.",
     "shopNow": "Jetzt einkaufen",
     "viewCollections": "Kategorien ansehen"
   },
@@ -425,24 +425,24 @@
     "popularCollections": "Beliebte Kategorien"
   },
   "Footer": {
-    "description": "Ein moderner, Headless-E-Commerce-Shop, erstellt mit Vendure und Next.js. Schnell, flexibel und produktionsbereit.",
+    "description": "Ugandas führendes Ziel für IoT-Komponenten, Mikrocontroller, Sensoren und Elektronik. Qualitätsprodukte für Maker, Studenten und Fachleute.",
     "categories": "Kategorien",
     "customer": "Kunde",
     "shopAll": "Alle Produkte",
     "orders": "Bestellungen",
     "account": "Konto",
-    "vendure": "Vendure",
-    "github": "GitHub",
-    "documentation": "Dokumentation",
-    "sourceCode": "Quellcode",
-    "copyright": "Vendure Store. Alle Rechte vorbehalten.",
+    "company": "Unternehmen",
+    "aboutUs": "Über Uns",
+    "contact": "Kontakt",
+    "support": "Support",
+    "copyright": "© {year} IoT Hub Uganda. Alle Rechte vorbehalten.",
     "poweredBy": "Powered by"
   },
   "Common": {
     "loading": "Wird geladen...",
     "sending": "Wird gesendet...",
     "sku": "Art.-Nr.",
-    "siteDescription": "Entdecken Sie die besten Produkte bei {siteName}. Qualitätsprodukte, wettbewerbsfähige Preise und schnelle Lieferung."
+    "siteDescription": "Entdecken Sie die besten IoT-Komponenten bei {siteName}. Qualitäts-Mikrocontroller, Sensoren und Elektronik für Ihre Projekte."
   },
   "Errors": {
     "fieldsRequired": "Alle Felder sind erforderlich",
