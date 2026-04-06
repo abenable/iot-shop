@@ -8,6 +8,16 @@ export async function CurrencyPickerWrapper() {
     const channel = await getActiveChannel();
     const activeCurrency = await getActiveCurrencyCode();
 
+    // During build, channel may be null - provide fallback
+    if (!channel) {
+        return (
+            <CurrencyPicker
+                availableCurrencyCodes={['UGX']}
+                activeCurrencyCode={activeCurrency || 'UGX'}
+            />
+        );
+    }
+
     return (
         <CurrencyPicker
             availableCurrencyCodes={channel.availableCurrencyCodes}
