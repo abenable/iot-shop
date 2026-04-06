@@ -28,6 +28,9 @@ import {getActiveCurrencyCode} from '@/lib/currency-server';
 import {getRouteLocale} from '@/i18n/server';
 import {getTranslations} from 'next-intl/server';
 
+// Prevent static generation - requires API access
+export const dynamic = 'force-dynamic';
+
 async function getCollectionProducts(slug: string, searchParams: { [key: string]: string | string[] | undefined }, currencyCode: string) {
     'use cache';
     cacheLife('hours');
