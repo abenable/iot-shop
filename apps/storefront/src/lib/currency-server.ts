@@ -13,5 +13,9 @@ export async function getActiveCurrencyCode(): Promise<string> {
     if (cookieValue) return cookieValue;
 
     const channel = await getActiveChannelCached();
+    // During build, channel may be null - return default
+    if (!channel) {
+        return 'UGX';
+    }
     return channel.defaultCurrencyCode;
 }
