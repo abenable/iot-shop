@@ -444,6 +444,30 @@
     "sku": "SKU",
     "siteDescription": "Shop the best IoT components at {siteName}. Quality microcontrollers, sensors, and electronics for your projects."
   },
+  "about": {
+    "title": "About Us",
+    "description": "IoT Hub Uganda is your trusted source for quality IoT components and electronics in Uganda. We provide genuine products from leading brands at competitive prices.",
+    "mission": "Our Mission",
+    "missionText": "To make quality electronics accessible to makers, students, and professionals across Uganda. We believe everyone should have access to the tools they need to bring their ideas to life.",
+    "whyChooseUs": "Why Choose Us",
+    "features": {
+      "genuine": "100% genuine products from authorized distributors",
+      "prices": "Competitive pricing with no hidden fees",
+      "delivery": "Fast local delivery across Uganda",
+      "support": "Expert technical support and guidance"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Have questions? We're here to help. Reach out to our team for support, inquiries, or wholesale orders.",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "hours": "Business Hours",
+    "hoursValue": "Monday - Friday: 9:00 AM - 6:00 PM\nSaturday: 9:00 AM - 3:00 PM\nSunday: Closed",
+    "sendMessage": "Send us a Message",
+    "comingSoon": "Our contact form is coming soon. Please reach out via email or phone for now."
+  },
   "Errors": {
     "fieldsRequired": "All fields are required",
     "passwordsMismatch": "Passwords do not match",

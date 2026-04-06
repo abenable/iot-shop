@@ -19,6 +19,15 @@ const nextConfig: NextConfig = {
             },
             {
                 hostname: 'localhost'
+            },
+            {
+                hostname: 'iot-r2.byte10x.dev',
+            },
+            {
+                hostname: '*.r2.cloudflarestorage.com',
+            },
+            {
+                hostname: 'iot-admin.byte10x.dev',
             }
         ],
     },
