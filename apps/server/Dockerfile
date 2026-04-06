@@ -19,8 +19,11 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Build the application
+# Build the server application
 RUN npm run build
+
+# Build the admin dashboard
+RUN npm run build:dashboard
 
 # Remove dev dependencies after build to reduce image size
 RUN npm prune --production
