@@ -1,0 +1,41 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev:server": "ts-node ./src/index.ts",
+    "dev:worker": "ts-node ./src/index-worker.ts",
+    "dev:dashboard": "vite --clearScreen false",
+    "dev": "concurrently --kill-others npm:dev:*",
+    "build": "tsc",
+    "build:dashboard": "vite build",
+    "start:server": "node ./dist/index.js",
+    "start:worker": "node ./dist/index-worker.js",
+    "start": "concurrently npm:start:*",
+    "verify": "ts-node ./src/scripts/verify-setup.ts",
+    "fix:channels": "ts-node ./src/scripts/fix-channels.ts",
+    "fix:token": "ts-node ./src/scripts/fix-channel-token.ts",
+    "populate": "ts-node ./src/scripts/populate-iot-data.ts",
+    "populate:fresh": "ts-node ./src/scripts/populate-iot-data.ts --sync",
+    "check:r2": "ts-node ./src/scripts/check-r2-config.ts",
+    "setup:uganda": "ts-node ./src/scripts/setup-uganda-shop.ts",
+    "update:prices": "ts-node ./src/scripts/update-product-prices.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1024.0",
+    "@aws-sdk/lib-storage": "^3.1024.0",
+    "@vendure/asset-server-plugin": "3.6.0",
+    "@vendure/core": "3.6.0",
+    "@vendure/dashboard": "3.6.0",
+    "@vendure/email-plugin": "3.6.0",
+    "@vendure/graphiql-plugin": "3.6.0",
+    "dotenv": "17.4.1",
+    "pg": "8.20.0"
+  },
+  "devDependencies": {
+    "@vendure/cli": "3.6.0",
+    "concurrently": "9.2.1",
+    "ts-node": "10.9.2",
+    "typescript": "5.8.2"
+  }
+}
