@@ -1,8 +1,10 @@
 import {Metadata} from 'next';
 import {getTranslations} from 'next-intl/server';
+import {getRouteLocale} from '@/i18n/server';
 
 export async function generateMetadata(): Promise<Metadata> {
-    const t = await getTranslations('contact');
+    const locale = await getRouteLocale();
+    const t = await getTranslations({locale, namespace: 'contact'});
     return {
         title: t('title'),
         description: t('description'),
@@ -10,7 +12,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
-    const t = await getTranslations('contact');
+    const locale = await getRouteLocale();
+    const t = await getTranslations({locale, namespace: 'contact'});
 
     return (
         <div className="container mx-auto px-4 py-12">
@@ -37,7 +40,7 @@ export default async function ContactPage() {
                         </div>
                         <div>
                             <h3 className="font-semibold mb-2">{t('hours')}</h3>
-                            <p className="text-muted-foreground">
+                            <p className="text-muted-foreground whitespace-pre-line">
                                 {t('hoursValue')}
                             </p>
                         </div>
