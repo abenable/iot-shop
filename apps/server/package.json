@@ -12,15 +12,8 @@
     "start:server": "node ./dist/index.js",
     "start:worker": "node ./dist/index-worker.js",
     "start": "concurrently npm:start:*",
-    "verify": "ts-node ./src/scripts/verify-setup.ts",
-    "fix:channels": "ts-node ./src/scripts/fix-channels.ts",
-    "fix:token": "ts-node ./src/scripts/fix-channel-token.ts",
     "populate": "ts-node ./src/scripts/populate-iot-data.ts",
-    "populate:fresh": "ts-node ./src/scripts/populate-iot-data.ts --sync",
-    "check:r2": "ts-node ./src/scripts/check-r2-config.ts",
-    "setup:uganda": "ts-node ./src/scripts/setup-uganda-shop.ts",
-    "update:prices": "ts-node ./src/scripts/update-product-prices.ts",
-    "fix:variant": "ts-node ./src/scripts/fix-variant-update.ts"
+    "populate:fresh": "ts-node ./src/scripts/populate-iot-data.ts --sync"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1024.0",
