@@ -1,14 +1,8 @@
 /**
- * Initial Data for IoT Electronics Shop
+ * Initial Data for IoT Electronics Shop - Uganda Only
  * 
- * This file defines the initial configuration data for the IoT shop including:
- * - Payment methods
- - Roles
- * - Countries and zones
- * - Tax rates
- * - Shipping methods
- * - Collections
- * - Facets for filtering
+ * This file defines the initial configuration data for the IoT shop.
+ * Configured for Uganda-only operations.
  */
 
 import { InitialData, LanguageCode } from '@vendure/core';
@@ -81,20 +75,17 @@ export const initialData: InitialData = {
         },
     ],
     defaultLanguage: LanguageCode.en,
+    // Uganda only
     countries: [
         { name: 'Uganda', code: 'UG', zone: 'Africa' },
-        { name: 'Kenya', code: 'KE', zone: 'Africa' },
-        { name: 'Tanzania', code: 'TZ', zone: 'Africa' },
-        { name: 'Rwanda', code: 'RW', zone: 'Africa' },
-        { name: 'Nigeria', code: 'NG', zone: 'Africa' },
-        { name: 'South Africa', code: 'ZA', zone: 'Africa' },
     ],
     defaultZone: 'Africa',
+    // Only 2 tax rates: Zero (0%) and Standard (10%)
     taxRates: [
-        { name: 'Standard Tax', percentage: 20 },
-        { name: 'Reduced Tax', percentage: 10 },
+        { name: 'Standard Tax', percentage: 10 },
         { name: 'Zero Tax', percentage: 0 },
     ],
+    // Uganda-specific shipping methods
     shippingMethods: [
         { name: 'Standard Delivery (Kampala)', price: 5000 },
         { name: 'Upcountry Delivery', price: 15000 },

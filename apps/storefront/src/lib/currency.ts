@@ -1,6 +1,6 @@
 import {cookies} from 'next/headers';
 
-const CURRENCY_COOKIE = 'vendure-currency';
+const CURRENCY_COOKIE = 'iothub-currency';
 
 export async function setCurrencyCookie(currencyCode: string) {
     const cookieStore = await cookies();
