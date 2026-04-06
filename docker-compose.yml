@@ -1,36 +1,18 @@
 # Docker Compose for IoT Shop Production Deployment
-# Based on: https://docs.vendure.io/current/core/deployment/using-docker
+# Uses external PostgreSQL database (not in Docker)
 #
 # Usage:
 #   docker-compose up -d          # Start all services
 #   docker-compose logs -f        # View logs
 #   docker-compose down           # Stop services
-#   docker-compose down -v        # Stop and remove volumes (WARNING: deletes database)
+#
+# Prerequisites:
+#   - PostgreSQL must be running on host (localhost:5432)
+#   - Database and user must be created
 
 version: "3.8"
 
 services:
-  # PostgreSQL Database
-  database:
-    image: postgres:16-alpine
-    container_name: iot-shop-db
-    restart: unless-stopped
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: ${DB_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
-      POSTGRES_DB: ${DB_NAME:-vendure}
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - iot-shop-network
-
   # Vendure Server
   server:
     build:
@@ -41,21 +23,21 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # Database
-      DB_HOST: database
+      # Database (connecting to host PostgreSQL)
+      DB_HOST: host.docker.internal
       DB_PORT: 5432
       DB_NAME: ${DB_NAME:-vendure}
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-password}
       DB_SCHEMA: public
-      
+
       # App Config
       APP_ENV: production
       PORT: 3000
       COOKIE_SECRET: ${COOKIE_SECRET:-change-me-in-production}
       SUPERADMIN_USERNAME: ${SUPERADMIN_USERNAME:-admin}
       SUPERADMIN_PASSWORD: ${SUPERADMIN_PASSWORD:-password}
-      
+
       # S3/R2 Storage (optional - comment out if not using)
       S3_BUCKET: ${S3_BUCKET:-}
       S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-}
@@ -64,13 +46,18 @@ services:
       S3_REGION: ${S3_REGION:-auto}
       S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
       S3_FILE_URL: ${S3_FILE_URL:-}
-    depends_on:
-      database:
-        condition: service_healthy
     volumes:
       - server_uploads:/usr/src/app/static/assets
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3000/health",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -87,20 +74,20 @@ services:
     restart: unless-stopped
     command: ["npm", "run", "start:worker"]
     environment:
-      # Database
-      DB_HOST: database
+      # Database (connecting to host PostgreSQL)
+      DB_HOST: host.docker.internal
       DB_PORT: 5432
       DB_NAME: ${DB_NAME:-vendure}
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-password}
       DB_SCHEMA: public
-      
+
       # App Config
       APP_ENV: production
       COOKIE_SECRET: ${COOKIE_SECRET:-change-me-in-production}
       SUPERADMIN_USERNAME: ${SUPERADMIN_USERNAME:-admin}
       SUPERADMIN_PASSWORD: ${SUPERADMIN_PASSWORD:-password}
-      
+
       # S3/R2 Storage
       S3_BUCKET: ${S3_BUCKET:-}
       S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-}
@@ -110,8 +97,6 @@ services:
       S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
       S3_FILE_URL: ${S3_FILE_URL:-}
     depends_on:
-      database:
-        condition: service_healthy
       server:
         condition: service_healthy
     volumes:
@@ -129,7 +114,7 @@ services:
     ports:
       - "3001:3001"
     environment:
-      VENDURE_SHOP_API_URL: ${VENDURE_SHOP_API_URL:-http://server:3000/shop-api}
+      VENDURE_SHOP_API_URL: ${VENDURE_SHOP_API_URL:-http://localhost:3000/shop-api}
       VENDURE_CHANNEL_TOKEN: ${VENDURE_CHANNEL_TOKEN:-__default_channel__}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3001}
       REVALIDATION_SECRET: ${REVALIDATION_SECRET:-}
@@ -160,8 +145,6 @@ services:
       - with-nginx
 
 volumes:
-  postgres_data:
-    driver: local
   server_uploads:
     driver: local
 
