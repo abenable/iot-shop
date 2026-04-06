@@ -23,9 +23,6 @@ import { notFound } from 'next/navigation';
 import { cacheLife, cacheTag } from 'next/cache';
 import { Truck, RotateCcw, ShieldCheck, Clock } from 'lucide-react';
 import { routing } from '@/i18n/routing';
-
-// Prevent static generation - requires API access
-export const dynamic = 'force-dynamic';
 import {
     SITE_NAME,
     truncateDescription,

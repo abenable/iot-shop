@@ -2,6 +2,9 @@ import {cacheLife, cacheTag} from 'next/cache';
 import {query} from './api';
 import {GetActiveChannelQuery, GetAvailableCountriesQuery, GetTopCollectionsQuery} from './queries';
 
+// Check if we're in build phase
+const isBuildTime = () => process.env.NEXT_PHASE === 'phase-production-build';
+
 /**
  * Get the active channel with caching enabled.
  * Channel configuration rarely changes, so we cache it for 1 hour.
@@ -11,8 +14,16 @@ export async function getActiveChannelCached() {
     'use cache';
     cacheLife('hours');
 
-    const result = await query(GetActiveChannelQuery);
-    return result.data.activeChannel;
+    try {
+        const result = await query(GetActiveChannelQuery);
+        return result.data.activeChannel;
+    } catch (e) {
+        // During Docker build, the Vendure API isn't reachable - return fallback
+        if (isBuildTime()) {
+            return null;
+        }
+        throw e;
+    }
 }
 
 /**
@@ -25,8 +36,16 @@ export async function getAvailableCountriesCached(locale: string) {
     cacheLife('max');
     cacheTag(`countries-${locale}`);
 
-    const result = await query(GetAvailableCountriesQuery, undefined, {languageCode: locale});
-    return result.data.availableCountries || [];
+    try {
+        const result = await query(GetAvailableCountriesQuery, undefined, {languageCode: locale});
+        return result.data.availableCountries || [];
+    } catch (e) {
+        // During Docker build, the Vendure API isn't reachable - return fallback
+        if (isBuildTime()) {
+            return [];
+        }
+        throw e;
+    }
 }
 
 /**
@@ -39,6 +58,14 @@ export async function getTopCollections(locale: string) {
     cacheLife('days');
     cacheTag(`collections-${locale}`);
 
-    const result = await query(GetTopCollectionsQuery, undefined, {languageCode: locale});
-    return result.data.collections.items;
+    try {
+        const result = await query(GetTopCollectionsQuery, undefined, {languageCode: locale});
+        return result.data.collections.items;
+    } catch (e) {
+        // During Docker build, the Vendure API isn't reachable - return fallback
+        if (isBuildTime()) {
+            return [];
+        }
+        throw e;
+    }
 }
