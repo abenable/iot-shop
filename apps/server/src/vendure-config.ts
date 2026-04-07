@@ -4,6 +4,7 @@ import {
   DefaultSchedulerPlugin,
   DefaultSearchPlugin,
   VendureConfig,
+  DefaultLogger,
 } from "@vendure/core";
 import {
   defaultEmailHandlers,
@@ -92,7 +93,7 @@ export const config: VendureConfig = {
       transport: {
         type: "smtp",
         host: "live.smtp.mailtrap.io",
-        port: 587,
+        port: 2525,
         auth: {
           user: "api",
           pass: process.env.SMTP_PASS || "",
