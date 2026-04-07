@@ -10,7 +10,7 @@ import {getTranslations} from 'next-intl/server';
 
 async function getFeaturedCollectionProducts(currencyCode: string) {
     'use cache'
-    cacheLife('days')
+    cacheLife({ expire: 300, stale: 300 })  // Cache for 5 minutes (300 seconds)
 
     const locale = await getRouteLocale();
     cacheTag(`featured-${locale}-${currencyCode}`);

@@ -36,7 +36,7 @@ import {getRouteLocale} from '@/i18n/server';
 
 async function getProductData(slug: string, currencyCode: string) {
     'use cache';
-    cacheLife('hours');
+    cacheLife({ expire: 300, stale: 300 }); // 5 minutes
 
     const locale = await getRouteLocale();
     cacheTag(`product-${slug}-${locale}-${currencyCode}`);

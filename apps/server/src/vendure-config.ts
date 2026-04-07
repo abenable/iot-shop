@@ -4,6 +4,8 @@ import {
     DefaultSchedulerPlugin,
     DefaultSearchPlugin,
     VendureConfig,
+    DefaultLogger,
+    LogLevel,
 } from '@vendure/core';
 import { defaultEmailHandlers, EmailPlugin, FileBasedTemplateLoader } from '@vendure/email-plugin';
 import { AssetServerPlugin, configureS3AssetStorage } from '@vendure/asset-server-plugin';
@@ -28,6 +30,12 @@ const emailPlugin = process.env.SMTP_HOST
                 pass: process.env.SMTP_PASS,
             },
             secure: false, // Use STARTTLS on port 587
+            requireTLS: true, // Force TLS upgrade
+            tls: {
+                rejectUnauthorized: false, // Accept self-signed certs (for some SMTP providers)
+            },
+            logging: true, // Debug SMTP
+            debug: true,   // Debug SMTP
         },
         handlers: defaultEmailHandlers,
         templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
@@ -54,6 +62,7 @@ const emailPlugin = process.env.SMTP_HOST
     });
 
 export const config: VendureConfig = {
+    logger: new DefaultLogger({ level: LogLevel.Debug }),
     apiOptions: {
         port: serverPort,
         adminApiPath: 'admin-api',

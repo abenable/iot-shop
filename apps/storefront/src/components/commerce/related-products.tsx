@@ -15,7 +15,7 @@ interface RelatedProductsProps {
 
 async function getRelatedProducts(collectionSlug: string, currentProductId: string, currencyCode: string) {
     'use cache'
-    cacheLife('hours')
+    cacheLife({ expire: 300, stale: 300 }) // 5 minutes
 
     const locale = await getRouteLocale();
     cacheTag(`related-products-${collectionSlug}-${locale}-${currencyCode}`);

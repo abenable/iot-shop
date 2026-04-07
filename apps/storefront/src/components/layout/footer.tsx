@@ -9,7 +9,7 @@ const COPYRIGHT_YEAR = new Date().getFullYear();
 
 async function Copyright() {
     'use cache'
-    cacheLife('days');
+    cacheLife({ expire: 300, stale: 300 }); // 5 minutes
 
     const locale = await getRouteLocale();
     const t = await getTranslations({locale, namespace: 'Footer'});
@@ -23,7 +23,7 @@ async function Copyright() {
 
 export async function Footer() {
     'use cache'
-    cacheLife('days');
+    cacheLife({ expire: 300, stale: 300 }); // 5 minutes
 
     const locale = await getRouteLocale();
     cacheTag(`footer-${locale}`);

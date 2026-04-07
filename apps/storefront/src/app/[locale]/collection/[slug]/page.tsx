@@ -30,7 +30,7 @@ import {getTranslations} from 'next-intl/server';
 
 async function getCollectionProducts(slug: string, searchParams: { [key: string]: string | string[] | undefined }, currencyCode: string) {
     'use cache';
-    cacheLife('hours');
+    cacheLife({ expire: 300, stale: 300 }); // 5 minutes
 
     const locale = await getRouteLocale();
     cacheTag(`collection-${slug}-${locale}-${currencyCode}`);
@@ -46,7 +46,7 @@ async function getCollectionProducts(slug: string, searchParams: { [key: string]
 
 async function getCollectionMetadata(slug: string) {
     'use cache';
-    cacheLife('hours');
+    cacheLife({ expire: 300, stale: 300 }); // 5 minutes
 
     const locale = await getRouteLocale();
     cacheTag(`collection-meta-${slug}-${locale}`);
