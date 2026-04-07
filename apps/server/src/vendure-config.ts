@@ -3,6 +3,7 @@ import {
   DefaultSchedulerPlugin,
   DefaultSearchPlugin,
   VendureConfig,
+  RedisCachePlugin,
 } from "@vendure/core";
 import { BullMQJobQueuePlugin } from '@vendure/job-queue-plugin/package/bullmq';
 import {
@@ -88,6 +89,12 @@ export const config: VendureConfig = {
   customFields: {},
   plugins: [
     GraphiqlPlugin.init(),
+    // Use Redis for high-performance caching (shared across instances)
+    RedisCachePlugin.init({
+        redisOptions: getRedisConnection(),
+        namespace: 'vendure-cache',
+        maxItemSizeInBytes: 128_000, // 128KB max per item
+    }),
     AssetServerPlugin.init({
       route: "assets",
       assetUploadDir: path.join(__dirname, "../static/assets"),
