@@ -11,49 +11,9 @@ import { DashboardPlugin } from '@vendure/dashboard/plugin';
 import { GraphiqlPlugin } from '@vendure/graphiql-plugin';
 import 'dotenv/config';
 import path from 'path';
-import { MailtrapTransport } from 'mailtrap';
-import Nodemailer from 'nodemailer';
 
 const IS_DEV = process.env.APP_ENV === 'dev';
 const serverPort = +process.env.PORT || 3000;
-
-// Create Mailtrap transport using their API (bypasses SMTP port blocking)
-function createMailtrapTransport() {
-    return Nodemailer.createTransport(
-        MailtrapTransport({
-            token: process.env.SMTP_PASS || '',
-        })
-    );
-}
-
-// Email plugin configuration based on environment
-const emailPlugin = process.env.SMTP_PASS
-    ? EmailPlugin.init({
-        // Production: Use Mailtrap API Transport (not SMTP)
-        transport: createMailtrapTransport() as any,
-        handlers: defaultEmailHandlers,
-        templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
-        globalTemplateVars: {
-            fromAddress: `"IoT Hub Uganda" <${process.env.FROM_EMAIL || 'iothub@byte10x.dev'}>`,
-            verifyEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify' : `${process.env.NEXT_PUBLIC_SITE_URL}/verify`,
-            passwordResetUrl: IS_DEV ? 'http://localhost:3001/reset-password' : `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`,
-            changeEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify-email-address-change' : `${process.env.NEXT_PUBLIC_SITE_URL}/verify-email-address-change`,
-        },
-    })
-    : EmailPlugin.init({
-        // Development mode - use file-based mailbox
-        devMode: true,
-        outputPath: path.join(__dirname, '../static/email/test-emails'),
-        route: 'mailbox',
-        handlers: defaultEmailHandlers,
-        templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
-        globalTemplateVars: {
-            fromAddress: '"IoT Hub Uganda" <iothub@byte10x.dev>',
-            verifyEmailAddressUrl: 'http://localhost:3001/verify',
-            passwordResetUrl: 'http://localhost:3001/reset-password',
-            changeEmailAddressUrl: 'http://localhost:3001/verify-email-address-change',
-        },
-    });
 
 export const config: VendureConfig = {
     apiOptions: {
@@ -61,9 +21,6 @@ export const config: VendureConfig = {
         adminApiPath: 'admin-api',
         shopApiPath: 'shop-api',
         trustProxy: IS_DEV ? false : 1,
-        // The following options are useful in development mode,
-        // but are best turned off for production for security
-        // reasons.
         ...(IS_DEV ? {
             adminApiDebug: true,
             shopApiDebug: true,
@@ -81,8 +38,6 @@ export const config: VendureConfig = {
     },
     dbConnectionOptions: {
         type: 'postgres',
-        // See the README.md "Migrations" section for an explanation of
-        // the `synchronize` and `migrations` options.
         synchronize: false,
         migrations: [path.join(__dirname, './migrations/*.+(js|ts)')],
         logging: false,
@@ -96,20 +51,13 @@ export const config: VendureConfig = {
     paymentOptions: {
         paymentMethodHandlers: [dummyPaymentHandler],
     },
-    // When adding or altering custom field definitions, the database will
-    // need to be updated. See the "Migrations" section in README.md.
     customFields: {},
     plugins: [
         GraphiqlPlugin.init(),
         AssetServerPlugin.init({
             route: 'assets',
             assetUploadDir: path.join(__dirname, '../static/assets'),
-            // For local dev, the correct value for assetUrlPrefix should
-            // be guessed correctly, but for production it will usually need
-            // to be set manually to match your production url.
             assetUrlPrefix: IS_DEV ? undefined : process.env.S3_FILE_URL || 'https://www.my-shop.com/assets/',
-            // S3-Compatible Storage Configuration
-            // When S3_BUCKET is set, uses S3 storage; otherwise falls back to local
             storageStrategyFactory: process.env.S3_BUCKET
                 ? configureS3AssetStorage({
                     bucket: process.env.S3_BUCKET,
@@ -129,7 +77,26 @@ export const config: VendureConfig = {
         DefaultSchedulerPlugin.init(),
         DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
         DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
-        emailPlugin,
+        EmailPlugin.init({
+            transport: {
+                type: 'smtp',
+                host: process.env.SMTP_HOST || 'live.smtp.mailtrap.io',
+                port: +(process.env.SMTP_PORT || 2525),
+                auth: {
+                    user: process.env.SMTP_USER || 'api',
+                    pass: process.env.SMTP_PASS || '',
+                },
+                secure: false,
+            },
+            handlers: defaultEmailHandlers,
+            templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
+            globalTemplateVars: {
+                fromAddress: `"IoT Hub Uganda" <${process.env.FROM_EMAIL || 'iothub@byte10x.dev'}>`,
+                verifyEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify' : `${process.env.NEXT_PUBLIC_SITE_URL}/verify`,
+                passwordResetUrl: IS_DEV ? 'http://localhost:3001/reset-password' : `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`,
+                changeEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify-email-address-change' : `${process.env.NEXT_PUBLIC_SITE_URL}/verify-email-address-change`,
+            },
+        }),
         DashboardPlugin.init({
             route: 'dashboard',
             appDir: IS_DEV
