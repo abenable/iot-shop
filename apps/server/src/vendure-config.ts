@@ -4,8 +4,6 @@ import {
     DefaultSchedulerPlugin,
     DefaultSearchPlugin,
     VendureConfig,
-    DefaultLogger,
-    LogLevel,
 } from '@vendure/core';
 import { defaultEmailHandlers, EmailPlugin, FileBasedTemplateLoader } from '@vendure/email-plugin';
 import { AssetServerPlugin, configureS3AssetStorage } from '@vendure/asset-server-plugin';
@@ -13,27 +11,26 @@ import { DashboardPlugin } from '@vendure/dashboard/plugin';
 import { GraphiqlPlugin } from '@vendure/graphiql-plugin';
 import 'dotenv/config';
 import path from 'path';
+import { MailtrapTransport } from 'mailtrap';
+import Nodemailer from 'nodemailer';
 
 const IS_DEV = process.env.APP_ENV === 'dev';
 const serverPort = +process.env.PORT || 3000;
 
+// Create Mailtrap transport using their API (bypasses SMTP port blocking)
+function createMailtrapTransport() {
+    return Nodemailer.createTransport(
+        MailtrapTransport({
+            token: process.env.SMTP_PASS || '',
+        })
+    );
+}
+
 // Email plugin configuration based on environment
-const emailPlugin = process.env.SMTP_HOST
+const emailPlugin = process.env.SMTP_PASS
     ? EmailPlugin.init({
-        // Production SMTP configuration (Mailtrap)
-        transport: {
-            type: 'smtp',
-            host: process.env.SMTP_HOST,
-            port: +process.env.SMTP_PORT!,
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-            secure: false,
-            requireTLS: true,
-            logging: true,
-            debug: true,
-        },
+        // Production: Use Mailtrap API Transport (not SMTP)
+        transport: createMailtrapTransport() as any,
         handlers: defaultEmailHandlers,
         templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
         globalTemplateVars: {
@@ -59,7 +56,6 @@ const emailPlugin = process.env.SMTP_HOST
     });
 
 export const config: VendureConfig = {
-    logger: new DefaultLogger({ level: LogLevel.Debug }),
     apiOptions: {
         port: serverPort,
         adminApiPath: 'admin-api',
