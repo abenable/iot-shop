@@ -1,11 +1,10 @@
 import {
   dummyPaymentHandler,
-  DefaultJobQueuePlugin,
   DefaultSchedulerPlugin,
   DefaultSearchPlugin,
   VendureConfig,
-  DefaultLogger,
 } from "@vendure/core";
+import { BullMQJobQueuePlugin } from '@vendure/job-queue-plugin/package/bullmq';
 import {
   defaultEmailHandlers,
   EmailPlugin,
@@ -94,7 +93,16 @@ export const config: VendureConfig = {
         : undefined,
     }),
     DefaultSchedulerPlugin.init(),
-    DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
+    // Use Redis-backed BullMQ for job queue (faster than database queue)
+    BullMQJobQueuePlugin.init({
+        connection: {
+            host: process.env.REDIS_HOST || 'localhost',
+            port: +(process.env.REDIS_PORT || 6379),
+        },
+        workerOptions: {
+            concurrency: 10, // Process 10 jobs in parallel
+        },
+    }),
         DefaultSearchPlugin.init({ 
             bufferUpdates: true,  // Enable buffered updates for better performance
             indexStockStatus: true 
