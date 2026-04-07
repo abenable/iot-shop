@@ -46,18 +46,25 @@ export const config: VendureConfig = {
       secret: process.env.COOKIE_SECRET,
     },
   },
-  dbConnectionOptions: {
-    type: "postgres",
-    synchronize: false,
-    migrations: [path.join(__dirname, "./migrations/*.+(js|ts)")],
-    logging: false,
-    database: process.env.DB_NAME,
-    schema: process.env.DB_SCHEMA,
-    host: process.env.DB_HOST,
-    port: +process.env.DB_PORT,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-  },
+    dbConnectionOptions: {
+        type: 'postgres',
+        synchronize: false,
+        migrations: [path.join(__dirname, './migrations/*.+(js|ts)')],
+        logging: false,
+        database: process.env.DB_NAME,
+        schema: process.env.DB_SCHEMA,
+        host: process.env.DB_HOST,
+        port: +process.env.DB_PORT,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        // Connection pooling for better performance
+        extra: {
+            max: 20,                    // Maximum connections in pool
+            min: 5,                     // Minimum connections
+            acquireTimeoutMillis: 5000, // Timeout for acquiring connection
+            idleTimeoutMillis: 30000,   // Timeout for idle connections
+        },
+    },
   paymentOptions: {
     paymentMethodHandlers: [dummyPaymentHandler],
   },
@@ -88,7 +95,10 @@ export const config: VendureConfig = {
     }),
     DefaultSchedulerPlugin.init(),
     DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
-    DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
+        DefaultSearchPlugin.init({ 
+            bufferUpdates: true,  // Enable buffered updates for better performance
+            indexStockStatus: true 
+        }),
     EmailPlugin.init({
       transport: {
         type: "smtp",
