@@ -16,18 +16,24 @@ async function getFeaturedCollectionProducts(currencyCode: string) {
     cacheTag(`featured-${locale}-${currencyCode}`);
     cacheTag('products');
 
-    // Fetch featured products from the "Featured Products" collection
-    const result = await query(GetCollectionProductsQuery, {
-        slug: "featured",
-        input: {
-            collectionSlug: "featured",
-            take: 12,
-            skip: 0,
-            groupByProduct: true
-        }
-    }, {languageCode: locale, currencyCode});
+    try {
+        // Fetch featured products from the "Featured Products" collection
+        const result = await query(GetCollectionProductsQuery, {
+            slug: "featured",
+            input: {
+                collectionSlug: "featured",
+                take: 12,
+                skip: 0,
+                groupByProduct: true
+            }
+        }, {languageCode: locale, currencyCode});
 
-    return result.data.search.items;
+        console.log('Featured products fetched:', result.data.search.totalItems);
+        return result.data.search.items;
+    } catch (error) {
+        console.error('Error fetching featured products:', error);
+        return [];
+    }
 }
 
 
@@ -36,6 +42,11 @@ export async function FeaturedProducts() {
     const currencyCode = await getActiveCurrencyCode();
     const t = await getTranslations({locale, namespace: 'Product'});
     const products = await getFeaturedCollectionProducts(currencyCode);
+
+    if (!products || products.length === 0) {
+        console.log('No featured products found');
+        return null;
+    }
 
     return (
         <div>
