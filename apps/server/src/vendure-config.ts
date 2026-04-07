@@ -15,6 +15,44 @@ import path from 'path';
 const IS_DEV = process.env.APP_ENV === 'dev';
 const serverPort = +process.env.PORT || 3000;
 
+// Email plugin configuration based on environment
+const emailPlugin = process.env.SMTP_HOST
+    ? EmailPlugin.init({
+        // Production SMTP configuration (Mailtrap or other SMTP)
+        transport: {
+            type: 'smtp',
+            host: process.env.SMTP_HOST,
+            port: +process.env.SMTP_PORT!,
+            auth: {
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS,
+            },
+            secure: false, // Use STARTTLS on port 587
+        },
+        handlers: defaultEmailHandlers,
+        templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
+        globalTemplateVars: {
+            fromAddress: `"IoT Hub Uganda" <${process.env.FROM_EMAIL || 'noreply@iothub.ug'}>`,
+            verifyEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify' : `${process.env.NEXT_PUBLIC_SITE_URL}/verify`,
+            passwordResetUrl: IS_DEV ? 'http://localhost:3001/reset-password' : `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`,
+            changeEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify-email-address-change' : `${process.env.NEXT_PUBLIC_SITE_URL}/verify-email-address-change`,
+        },
+    })
+    : EmailPlugin.init({
+        // Development mode - use file-based mailbox
+        devMode: true,
+        outputPath: path.join(__dirname, '../static/email/test-emails'),
+        route: 'mailbox',
+        handlers: defaultEmailHandlers,
+        templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
+        globalTemplateVars: {
+            fromAddress: '"IoT Hub Uganda" <noreply@iothub.ug>',
+            verifyEmailAddressUrl: 'http://localhost:3001/verify',
+            passwordResetUrl: 'http://localhost:3001/reset-password',
+            changeEmailAddressUrl: 'http://localhost:3001/verify-email-address-change',
+        },
+    });
+
 export const config: VendureConfig = {
     apiOptions: {
         port: serverPort,
@@ -89,21 +127,7 @@ export const config: VendureConfig = {
         DefaultSchedulerPlugin.init(),
         DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
         DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
-        EmailPlugin.init({
-            devMode: true,
-            outputPath: path.join(__dirname, '../static/email/test-emails'),
-            route: 'mailbox',
-            handlers: defaultEmailHandlers,
-            templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
-            globalTemplateVars: {
-                // The following variables will change depending on your storefront implementation.
-                // Here we are assuming a storefront running at http://localhost:8080.
-                fromAddress: '"example" <noreply@example.com>',
-                verifyEmailAddressUrl: 'http://localhost:8080/verify',
-                passwordResetUrl: 'http://localhost:8080/password-reset',
-                changeEmailAddressUrl: 'http://localhost:8080/verify-email-address-change'
-            },
-        }),
+        emailPlugin,
         DashboardPlugin.init({
             route: 'dashboard',
             appDir: IS_DEV
