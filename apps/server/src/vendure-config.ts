@@ -22,6 +22,24 @@ import path from "path";
 const IS_DEV = process.env.APP_ENV === "dev";
 const serverPort = +process.env.PORT || 3000;
 
+// Parse Redis URL if provided, otherwise use host/port
+function getRedisConnection() {
+    const redisUrl = process.env.REDIS_URL;
+    if (redisUrl) {
+        const url = new URL(redisUrl);
+        return {
+            host: url.hostname,
+            port: parseInt(url.port) || 6379,
+            username: url.username || undefined,
+            password: url.password || undefined,
+        };
+    }
+    return {
+        host: process.env.REDIS_HOST || 'localhost',
+        port: +(process.env.REDIS_PORT || 6379),
+    };
+}
+
 export const config: VendureConfig = {
   apiOptions: {
     port: serverPort,
@@ -95,10 +113,7 @@ export const config: VendureConfig = {
     DefaultSchedulerPlugin.init(),
     // Use Redis-backed BullMQ for job queue (faster than database queue)
     BullMQJobQueuePlugin.init({
-        connection: process.env.REDIS_URL || {
-            host: process.env.REDIS_HOST || 'localhost',
-            port: +(process.env.REDIS_PORT || 6379),
-        },
+        connection: getRedisConnection(),
         workerOptions: {
             concurrency: 10, // Process 10 jobs in parallel
         },
