@@ -1,20 +1,63 @@
-{{> header title="Verify Your Email Address" }}
+{{> header title="Verify Your Email Address" preheader="Complete your IoT Hub Uganda registration" }}
 
-<mj-section background-color="#fafafa">
+<!-- Hero Section -->
+<mj-section background-color="#ffffff" padding="32px 24px 16px">
     <mj-column>
-        <mj-text color="#525252">
-            Thank you for creating an account. Click the button below to verify this email address and
-            complete the registration process:
+        <mj-text align="center">
+            <span style="font-size: 48px;">✉️</span>
         </mj-text>
-
-        <mj-button font-family="Helvetica"
-                   background-color="#f45e43"
-                   color="white"
-                   href="{{ verifyEmailAddressUrl }}?token={{ verificationToken }}">
-            Verify Me!
-        </mj-button>
+        <mj-text align="center" css-class="email-title" padding-top="16px">
+            Verify Your Email
+        </mj-text>
     </mj-column>
 </mj-section>
 
+<!-- Welcome Section -->
+<mj-section background-color="#ffffff" padding="16px 24px">
+    <mj-column>
+        <mj-text css-class="body-large" align="center">
+            Welcome to IoT Hub Uganda! Thank you for creating an account. Please verify your email address to complete your registration and start shopping.
+        </mj-text>
+        
+        <mj-button href="{{ verifyEmailAddressUrl }}?token={{ verificationToken }}" padding="24px 0">
+            Verify Email Address
+        </mj-button>
+        
+        <mj-text align="center" font-size="13px" color="#6b7280" padding-top="8px">
+            This link expires in 48 hours
+        </mj-text>
+        
+        <mj-divider border-color="#e5e7eb" border-width="1px" padding="24px 0" />
+        
+        <!-- What's Next Section -->
+        <mj-text css-class="section-heading" align="center" padding-bottom="16px">
+            What You Can Do
+        </mj-text>
+        
+        <mj-section padding="0">
+            <mj-column width="33%">
+                <mj-text align="center" font-size="24px">🛒</mj-text>
+                <mj-text align="center" font-size="12px" font-weight="600" color="#111827" padding-top="8px">Shop Products</mj-text>
+                <mj-text align="center" font-size="11px" color="#6b7280">Browse our collection</mj-text>
+            </mj-column>
+            <mj-column width="33%">
+                <mj-text align="center" font-size="24px">🚚</mj-text>
+                <mj-text align="center" font-size="12px" font-weight="600" color="#111827" padding-top="8px">Fast Delivery</mj-text>
+                <mj-text align="center" font-size="11px" color="#6b7280">Across Kampala</mj-text>
+            </mj-column>
+            <mj-column width="33%">
+                <mj-text align="center" font-size="24px">💬</mj-text>
+                <mj-text align="center" font-size="12px" font-weight="600" color="#111827" padding-top="8px">Get Support</mj-text>
+                <mj-text align="center" font-size="11px" color="#6b7280">We're here to help</mj-text>
+            </mj-column>
+        </mj-section>
+        
+        <mj-divider border-color="#e5e7eb" border-width="1px" padding="24px 0" />
+        
+        <mj-text font-size="13px" color="#6b7280">
+            <strong>Need help?</strong> If you didn't create an account with us, you can safely ignore this email. If you have any questions, please contact our support team.
+        </mj-text>
+    </mj-column>
+</mj-section>
 
 {{> footer }}

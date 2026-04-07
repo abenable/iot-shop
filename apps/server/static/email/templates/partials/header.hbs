@@ -1,23 +1,36 @@
 <mjml>
     <mj-head>
         <mj-title>{{ title }}</mj-title>
+        <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+        <mj-attributes>
+            <mj-all font-family="Inter, system-ui, -apple-system, sans-serif" />
+            <mj-text font-size="14px" line-height="1.6" color="#374151" />
+            <mj-button background-color="#16a34a" color="#ffffff" font-size="14px" font-weight="600" border-radius="6px" padding="12px 24px" />
+        </mj-attributes>
         <mj-style inline="inline">
-            h3 {
-                font-size: 18px;
-                color: #555;
-                font-weight: normal;
-            }
+            .email-title { font-size: 24px; font-weight: 700; color: #111827; line-height: 1.3; }
+            .section-heading { font-size: 18px; font-weight: 600; color: #111827; line-height: 1.4; }
+            .body-large { font-size: 16px; line-height: 1.6; color: #374151; }
+            .text-muted { color: #6b7280; }
+            .link-green { color: #16a34a; text-decoration: underline; }
         </mj-style>
     </mj-head>
 
-    <mj-body>
-        <mj-section background-color="#1a365d">
+    <mj-body background-color="#f3f4f6">
+        <!-- Preheader (hidden) -->
+        <mj-raw>{{{preheader}}}</mj-raw>
+        
+        <!-- Main Container -->
+        <mj-section background-color="#ffffff" padding="0">
             <mj-column>
-                <mj-text align="center" color="#ffffff" font-size="24px" font-weight="bold">
-                    IoT Hub Uganda
-                </mj-text>
-                <mj-text align="center" color="#e2e8f0" font-size="14px">
-                    Quality Electronics Components
-                </mj-text>
-            </mj-column>
-        </mj-section>
+                <!-- Logo Header -->
+                <mj-section background-color="#ffffff" padding="24px 24px 16px" border-bottom="1px solid #e5e7eb">
+                    <mj-column>
+                        <mj-text align="center" font-size="20px" font-weight="700" color="#16a34a">
+                            IoT Hub Uganda
+                        </mj-text>
+                        <mj-text align="center" font-size="12px" color="#6b7280" padding-top="4px">
+                            Quality Electronics Components
+                        </mj-text>
+                    </mj-column>
+                </mj-section>

@@ -1,20 +1,55 @@
-{{> header title="Verify Your New Email Address" }}
+{{> header title="Confirm Your New Email Address" preheader="Verify your email address change request" }}
 
-<mj-section background-color="#fafafa">
+<!-- Hero Section -->
+<mj-section background-color="#ffffff" padding="32px 24px 16px">
     <mj-column>
-        <mj-text color="#525252">
-            We received a request to change your registered email address to this one.
-            Click the button below to verify this address and complete the process:
+        <mj-text align="center">
+            <span style="font-size: 48px;">🔄</span>
         </mj-text>
-
-        <mj-button font-family="Helvetica"
-                   background-color="#f45e43"
-                   color="white"
-                   href="{{ changeEmailAddressUrl }}?token={{ identifierChangeToken }}">
-            Verify Me!
-        </mj-button>
+        <mj-text align="center" css-class="email-title" padding-top="16px">
+            Confirm Email Change
+        </mj-text>
     </mj-column>
 </mj-section>
 
+<!-- Content Section -->
+<mj-section background-color="#ffffff" padding="16px 24px">
+    <mj-column>
+        <mj-text css-class="body-large" align="center">
+            We received a request to change the email address on your IoT Hub Uganda account to this address.
+        </mj-text>
+        
+        <mj-section background-color="#fefce8" padding="16px" border-left="4px solid #f59e0b" border-radius="0 6px 6px 0">
+            <mj-column>
+                <mj-text font-size="13px" color="#92400e">
+                    <strong>Security Notice:</strong> If you didn't request this change, please ignore this email and your account will remain unchanged.
+                </mj-text>
+            </mj-column>
+        </mj-section>
+        
+        <mj-text align="center" padding-top="16px">
+            Click the button below to confirm this email address:
+        </mj-text>
+        
+        <mj-button href="{{ changeEmailAddressUrl }}?token={{ identifierChangeToken }}" padding="24px 0">
+            Confirm Email Address
+        </mj-button>
+        
+        <mj-text align="center" font-size="13px" color="#6b7280" padding-top="8px">
+            This link expires in 24 hours
+        </mj-text>
+        
+        <mj-divider border-color="#e5e7eb" border-width="1px" padding="24px 0" />
+        
+        <mj-text font-size="13px" color="#6b7280">
+            <strong>Why am I receiving this?</strong><br />
+            Someone requested to update the email address associated with an IoT Hub Uganda account. For security reasons, we require verification of the new email address before making this change.
+        </mj-text>
+        
+        <mj-text font-size="13px" color="#6b7280" padding-top="12px">
+            If you have any concerns about this request, please <a href="mailto:support@iothub.ug" style="color: #16a34a;">contact our support team</a> immediately.
+        </mj-text>
+    </mj-column>
+</mj-section>
 
 {{> footer }}
