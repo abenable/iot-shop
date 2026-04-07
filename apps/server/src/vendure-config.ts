@@ -32,7 +32,7 @@ const emailPlugin = process.env.SMTP_HOST
         handlers: defaultEmailHandlers,
         templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
         globalTemplateVars: {
-            fromAddress: `"IoT Hub Uganda" <${process.env.FROM_EMAIL || 'noreply@iothub.ug'}>`,
+            fromAddress: `"IoT Hub Uganda" <${process.env.FROM_EMAIL || 'iothub@byte10x.dev'}>`,
             verifyEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify' : `${process.env.NEXT_PUBLIC_SITE_URL}/verify`,
             passwordResetUrl: IS_DEV ? 'http://localhost:3001/reset-password' : `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`,
             changeEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify-email-address-change' : `${process.env.NEXT_PUBLIC_SITE_URL}/verify-email-address-change`,
@@ -46,7 +46,7 @@ const emailPlugin = process.env.SMTP_HOST
         handlers: defaultEmailHandlers,
         templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
         globalTemplateVars: {
-            fromAddress: '"IoT Hub Uganda" <noreply@iothub.ug>',
+            fromAddress: '"IoT Hub Uganda" <iothub@byte10x.dev>',
             verifyEmailAddressUrl: 'http://localhost:3001/verify',
             passwordResetUrl: 'http://localhost:3001/reset-password',
             changeEmailAddressUrl: 'http://localhost:3001/verify-email-address-change',
