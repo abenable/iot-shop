@@ -97,7 +97,8 @@ export const config: VendureConfig = {
           user: "api",
           pass: process.env.SMTP_PASS || "",
         },
-        secure: false,
+        logging: true,
+        debug: true,
       },
       handlers: defaultEmailHandlers,
       templateLoader: new FileBasedTemplateLoader(
