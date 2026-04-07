@@ -25,6 +25,7 @@
     "@vendure/graphiql-plugin": "3.6.0",
     "dotenv": "17.4.1",
     "mailtrap": "^4.5.1",
+    "nodemailer": "^7.0.13",
     "pg": "8.20.0"
   },
   "devDependencies": {
