@@ -20,7 +20,7 @@ const serverPort = +process.env.PORT || 3000;
 // Email plugin configuration based on environment
 const emailPlugin = process.env.SMTP_HOST
     ? EmailPlugin.init({
-        // Production SMTP configuration (Mailtrap or other SMTP)
+        // Production SMTP configuration (Mailtrap)
         transport: {
             type: 'smtp',
             host: process.env.SMTP_HOST,
@@ -29,13 +29,10 @@ const emailPlugin = process.env.SMTP_HOST
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS,
             },
-            secure: false, // Use STARTTLS on port 587
-            requireTLS: true, // Force TLS upgrade
-            tls: {
-                rejectUnauthorized: false, // Accept self-signed certs (for some SMTP providers)
-            },
-            logging: true, // Debug SMTP
-            debug: true,   // Debug SMTP
+            secure: false,
+            requireTLS: true,
+            logging: true,
+            debug: true,
         },
         handlers: defaultEmailHandlers,
         templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
