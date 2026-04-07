@@ -95,7 +95,7 @@ export const config: VendureConfig = {
     DefaultSchedulerPlugin.init(),
     // Use Redis-backed BullMQ for job queue (faster than database queue)
     BullMQJobQueuePlugin.init({
-        connection: {
+        connection: process.env.REDIS_URL || {
             host: process.env.REDIS_HOST || 'localhost',
             port: +(process.env.REDIS_PORT || 6379),
         },
