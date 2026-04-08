@@ -32,9 +32,9 @@ export function NavbarCartClient() {
             size="icon" 
             className="relative text-foreground/80 hover:text-foreground hover:bg-muted"
         >
-            <ShoppingBag className="h-6 w-6"/>
+            <ShoppingBag className="h-5 w-5"/>
             {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[11px] font-semibold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] font-semibold rounded-full h-4 w-4 flex items-center justify-center">
                     {cartCount > 9 ? '9+' : cartCount}
                 </span>
             )}
