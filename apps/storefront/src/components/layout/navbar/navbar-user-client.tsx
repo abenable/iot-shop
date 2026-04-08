@@ -1,5 +1,8 @@
-import {User} from 'lucide-react';
-import {Button} from '@/components/ui/button';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,13 +11,44 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import {LoginButton} from "@/components/layout/navbar/login-button";
-import {getActiveCustomer} from "@/lib/vendure/actions";
+import { LoginButton } from './login-button';
 
+interface Customer {
+    firstName: string;
+}
 
-export async function NavbarUser() {
-    const locale = "en";
-    const customer = await getActiveCustomer()
+export function NavbarUserClient() {
+    const [customer, setCustomer] = useState<Customer | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCustomer = async () => {
+            try {
+                const response = await fetch('/api/customer');
+                if (response.ok) {
+                    const data = await response.json();
+                    setCustomer(data.customer);
+                }
+            } catch {
+                // Silently fail
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCustomer();
+    }, []);
+
+    if (loading) {
+        return (
+            <Button 
+                variant="ghost" 
+                size="icon"
+                className="text-foreground/80 hover:text-foreground hover:bg-muted"
+            >
+                <User className="h-4 w-4"/>
+            </Button>
+        );
+    }
 
     if (!customer) {
         return (

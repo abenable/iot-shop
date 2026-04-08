@@ -6,15 +6,10 @@ type NavigationLinkProps = Omit<ComponentProps<typeof NextLink>, 'href'> & {
 };
 
 /**
- * Locale-aware link for cached/static server components (layout, navbar, footer).
+ * Link component for cached/static server components (layout, navbar, footer).
  *
- * Uses next/link with rootLocale() to build locale-prefixed hrefs.
- * next-intl's Link always calls useLocale() internally which accesses
- * dynamic data and breaks PPR prerendering on routes with dynamic params.
- *
- * For client components, use Link from next/navigation instead.
+ * Uses next/link directly since we no longer use locale prefixes.
  */
-export async function NavigationLink({href, ...rest}: NavigationLinkProps) {
-    const localizedHref = href === '/' ? `/en` : `/en${href}`;
-    return <NextLink href={localizedHref} {...rest} />;
+export function NavigationLink({href, ...rest}: NavigationLinkProps) {
+    return <NextLink href={href} {...rest} />;
 }

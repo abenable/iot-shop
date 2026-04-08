@@ -6,10 +6,6 @@ import {GetCollectionProductsQuery} from "@/lib/vendure/queries";
 import Link from 'next/link';
 import {ArrowRight} from "lucide-react";
 
-interface FeaturedProductsProps {
-    variant?: 'light' | 'dark';
-}
-
 interface GetFeaturedProductsParams {
     currencyCode: string;
     locale: string;
@@ -43,7 +39,7 @@ async function getFeaturedCollectionProducts({currencyCode, locale}: GetFeatured
 }
 
 
-export async function FeaturedProducts({ variant = 'light' }: FeaturedProductsProps = {}) {
+export async function FeaturedProducts() {
     const locale = "en";
     const currencyCode = await getActiveCurrencyCode();
     const products = await getFeaturedCollectionProducts({currencyCode, locale});
@@ -53,22 +49,17 @@ export async function FeaturedProducts({ variant = 'light' }: FeaturedProductsPr
         return null;
     }
 
-    const isDark = variant === 'dark';
-    const appleBlue = "#0071e3";
-
     return (
         <div>
             <ProductCarousel
                 title="Featured Products"
                 products={products}
-                variant={variant}
             />
-            <div className="container mx-auto px-4 -mt-6 mb-8">
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 mt-4">
                 <div className="flex justify-center">
                     <Link
                         href="/search"
-                        className="group inline-flex items-center gap-1.5 text-[17px] font-medium transition-colors hover:opacity-80"
-                        style={{ color: isDark ? appleBlue : 'var(--primary)' }}
+                        className="group inline-flex items-center gap-1.5 text-[15px] font-medium transition-colors hover:opacity-80 text-primary"
                     >
                         View All Products
                         <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />

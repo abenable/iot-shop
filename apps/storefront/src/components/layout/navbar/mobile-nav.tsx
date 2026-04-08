@@ -39,7 +39,7 @@ export function MobileNav({collections}: MobileNavProps) {
             <Button 
                 variant="ghost" 
                 size="icon" 
-                className="md:hidden text-white/90 hover:text-white hover:bg-white/10"
+                className="md:hidden text-foreground/80 hover:text-foreground hover:bg-muted"
                 onClick={() => setOpen(true)}
             >
                 <Menu className="h-5 w-5" />
@@ -49,20 +49,17 @@ export function MobileNav({collections}: MobileNavProps) {
             {/* Full Screen Overlay */}
             {open && (
                 <div 
-                    className="fixed inset-0 z-[100] bg-black"
-                    style={{
-                        animation: 'fadeIn 0.3s ease-out',
-                    }}
+                    className="fixed inset-0 z-[100] bg-background animate-in fade-in slide-in-from-top-2 duration-300"
                 >
                     {/* Header */}
-                    <div className="flex items-center justify-between h-12 px-4 border-b border-white/10">
-                        <span className="text-white text-sm font-medium tracking-tight">
+                    <div className="flex items-center justify-between h-12 px-4 border-b border-border">
+                        <span className="text-foreground text-sm font-medium tracking-tight">
                             IoT Hub
                         </span>
                         <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="text-white/90 hover:text-white hover:bg-white/10"
+                            className="text-foreground/80 hover:text-foreground hover:bg-muted"
                             onClick={() => setOpen(false)}
                         >
                             <X className="h-5 w-5" />
@@ -74,11 +71,11 @@ export function MobileNav({collections}: MobileNavProps) {
                     <div className="px-6 py-8 overflow-y-auto h-[calc(100vh-48px)]">
                         {/* Search */}
                         <form onSubmit={handleSearch} className="relative mb-10">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50" />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                             <Input
                                 type="search"
                                 placeholder="Search products..."
-                                className="pl-12 h-12 w-full bg-white/10 border-0 text-white placeholder:text-white/50 text-lg rounded-xl focus-visible:ring-[#0071e3]"
+                                className="pl-12 h-12 w-full bg-muted border-0 text-foreground placeholder:text-muted-foreground text-lg rounded-xl focus-visible:ring-primary"
                                 value={searchValue}
                                 onChange={(e) => setSearchValue(e.target.value)}
                             />
@@ -89,21 +86,21 @@ export function MobileNav({collections}: MobileNavProps) {
                             <Link
                                 href="/search"
                                 onClick={handleLinkClick}
-                                className="flex items-center gap-4 px-2 py-4 text-2xl font-semibold text-white hover:text-[#0071e3] transition-colors"
+                                className="flex items-center gap-4 px-2 py-4 text-2xl font-semibold text-foreground hover:text-primary transition-colors"
                             >
                                 Store
                             </Link>
                             <Link
                                 href="/about"
                                 onClick={handleLinkClick}
-                                className="flex items-center gap-4 px-2 py-4 text-2xl font-semibold text-white hover:text-[#0071e3] transition-colors"
+                                className="flex items-center gap-4 px-2 py-4 text-2xl font-semibold text-foreground hover:text-primary transition-colors"
                             >
                                 About
                             </Link>
                             <Link
                                 href="/contact"
                                 onClick={handleLinkClick}
-                                className="flex items-center gap-4 px-2 py-4 text-2xl font-semibold text-white hover:text-[#0071e3] transition-colors"
+                                className="flex items-center gap-4 px-2 py-4 text-2xl font-semibold text-foreground hover:text-primary transition-colors"
                             >
                                 Contact
                             </Link>
@@ -112,7 +109,7 @@ export function MobileNav({collections}: MobileNavProps) {
                         {/* Collections */}
                         {collections.length > 0 && (
                             <div className="mb-10">
-                                <p className="px-2 mb-4 text-sm font-medium uppercase tracking-wider text-white/50">
+                                <p className="px-2 mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
                                     Collections
                                 </p>
                                 <nav className="space-y-1">
@@ -121,7 +118,7 @@ export function MobileNav({collections}: MobileNavProps) {
                                             key={collection.slug}
                                             href={`/collection/${collection.slug}`}
                                             onClick={handleLinkClick}
-                                            className="flex items-center gap-4 px-2 py-3 text-lg text-white/80 hover:text-white transition-colors"
+                                            className="flex items-center gap-4 px-2 py-3 text-lg text-foreground/80 hover:text-foreground transition-colors"
                                         >
                                             {collection.name}
                                         </Link>
@@ -132,40 +129,40 @@ export function MobileNav({collections}: MobileNavProps) {
 
                         {/* Account Links */}
                         <div>
-                            <p className="px-2 mb-4 text-sm font-medium uppercase tracking-wider text-white/50">
+                            <p className="px-2 mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
                                 Account
                             </p>
                             <nav className="space-y-1">
                                 <Link
                                     href="/account/profile"
                                     onClick={handleLinkClick}
-                                    className="flex items-center gap-4 px-2 py-3 text-lg text-white/80 hover:text-white transition-colors"
+                                    className="flex items-center gap-4 px-2 py-3 text-lg text-foreground/80 hover:text-foreground transition-colors"
                                 >
-                                    <User className="h-5 w-5 text-white/50" />
+                                    <User className="h-5 w-5 text-muted-foreground" />
                                     Profile
                                 </Link>
                                 <Link
                                     href="/account/orders"
                                     onClick={handleLinkClick}
-                                    className="flex items-center gap-4 px-2 py-3 text-lg text-white/80 hover:text-white transition-colors"
+                                    className="flex items-center gap-4 px-2 py-3 text-lg text-foreground/80 hover:text-foreground transition-colors"
                                 >
-                                    <Package className="h-5 w-5 text-white/50" />
+                                    <Package className="h-5 w-5 text-muted-foreground" />
                                     Orders
                                 </Link>
                                 <Link
                                     href="/account/addresses"
                                     onClick={handleLinkClick}
-                                    className="flex items-center gap-4 px-2 py-3 text-lg text-white/80 hover:text-white transition-colors"
+                                    className="flex items-center gap-4 px-2 py-3 text-lg text-foreground/80 hover:text-foreground transition-colors"
                                 >
-                                    <MapPin className="h-5 w-5 text-white/50" />
+                                    <MapPin className="h-5 w-5 text-muted-foreground" />
                                     Addresses
                                 </Link>
                                 <Link
                                     href="/cart"
                                     onClick={handleLinkClick}
-                                    className="flex items-center gap-4 px-2 py-3 text-lg text-white/80 hover:text-white transition-colors"
+                                    className="flex items-center gap-4 px-2 py-3 text-lg text-foreground/80 hover:text-foreground transition-colors"
                                 >
-                                    <ShoppingBag className="h-5 w-5 text-white/50" />
+                                    <ShoppingBag className="h-5 w-5 text-muted-foreground" />
                                     Shopping Cart
                                 </Link>
                             </nav>
@@ -173,19 +170,6 @@ export function MobileNav({collections}: MobileNavProps) {
                     </div>
                 </div>
             )}
-
-            <style jsx>{`
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(-10px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-            `}</style>
         </>
     );
 }

@@ -19,7 +19,7 @@ export function NavbarLink({href, ...rest}: ComponentProps<typeof Link>) {
                 <Link
                     aria-current={isActive ? 'page' : undefined}
                     className={cn(
-                        'text-white/90 text-xs font-normal tracking-wide hover:text-white transition-colors',
+                        'text-foreground/80 text-[13px] font-medium tracking-wide hover:text-foreground transition-colors',
                         'bg-transparent hover:bg-transparent focus:bg-transparent',
                         'p-0 h-auto'
                     )}

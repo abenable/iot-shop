@@ -33,11 +33,11 @@ export function SearchInput({ variant = 'default' }: SearchInputProps) {
     if (variant === 'large') {
         return (
             <form onSubmit={handleSubmit} className="relative">
-                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-[#86868b]"/>
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground"/>
                 <input
                     type="search"
                     placeholder="Search products..."
-                    className="w-full h-14 pl-14 pr-6 bg-[#f5f5f7] hover:bg-[#e8e8ed] focus:bg-white border border-transparent focus:border-[#0071e3] rounded-full text-[17px] text-[#1d1d1f] placeholder:text-[#86868b] outline-none transition-all duration-200 shadow-sm focus:shadow-md"
+                    className="w-full h-14 pl-14 pr-6 bg-muted hover:bg-muted/80 focus:bg-background border border-transparent focus:border-primary rounded-full text-[17px] text-foreground placeholder:text-muted-foreground outline-none transition-all duration-200 shadow-sm focus:shadow-md"
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
                     disabled={isPending}
@@ -46,15 +46,15 @@ export function SearchInput({ variant = 'default' }: SearchInputProps) {
         );
     }
 
-    // Navbar variant - dark Apple-style
+    // Navbar variant
     if (variant === 'navbar') {
         return (
-            <form onSubmit={handleSubmit} className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white/60"/>
+            <form onSubmit={handleSubmit} className="relative w-full">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"/>
                 <input
                     type="search"
-                    placeholder="Search"
-                    className="w-40 h-7 pl-8 pr-3 bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-transparent rounded-full text-xs text-white placeholder:text-white/50 outline-none transition-all duration-200"
+                    placeholder="Search products..."
+                    className="w-full h-10 pl-11 pr-4 bg-muted hover:bg-muted/80 focus:bg-background border border-transparent rounded-full text-sm text-foreground placeholder:text-muted-foreground outline-none transition-all duration-200"
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
                     disabled={isPending}
@@ -66,11 +66,11 @@ export function SearchInput({ variant = 'default' }: SearchInputProps) {
     // Default variant
     return (
         <form onSubmit={handleSubmit} className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#86868b]"/>
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"/>
             <Input
                 type="search"
                 placeholder="Search products..."
-                className="pl-9 w-64 bg-[#f5f5f7] border-transparent focus:bg-white focus:border-[#0071e3] rounded-full"
+                className="pl-9 w-64 bg-muted border-transparent focus:bg-background focus:border-primary rounded-full"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 disabled={isPending}

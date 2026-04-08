@@ -1,11 +1,10 @@
 import {NextRequest} from 'next/server';
-import createMiddleware from 'next-intl/middleware';
-import {routing} from './i18n/routing';
 
-const middleware = createMiddleware(routing);
-
+// Simple pass-through proxy - no i18n routing needed
 export default function proxy(request: NextRequest) {
-    return middleware(request);
+    return;
 }
 
-export const config = {matcher: ['/((?!api|_next|_vercel|.*\..*).*)']};
+export const config = {
+    matcher: [],
+};

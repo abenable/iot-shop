@@ -2,10 +2,12 @@ import {cacheLife, cacheTag} from 'next/cache';
 import {getTopCollections} from '@/lib/vendure/cached';
 import {
     NavigationMenu,
-    NavigationMenuList,
+    NavigationMenuContent,
     NavigationMenuItem,
+    NavigationMenuList,
+    NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import {NavbarLink} from '@/components/layout/navbar/navbar-link';
+import Link from 'next/link';
 
 interface NavbarCollectionsContentProps {
     locale: string;
@@ -28,13 +30,25 @@ export async function NavbarCollections() {
     return (
         <NavigationMenu className="gap-0">
             <NavigationMenuList className="gap-6">
-                {collections.slice(0, 3).map((collection) => (
-                    <NavigationMenuItem key={collection.slug} className="p-0">
-                        <NavbarLink href={`/collection/${collection.slug}`}>
-                            {collection.name}
-                        </NavbarLink>
-                    </NavigationMenuItem>
-                ))}
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-foreground/80 text-[13px] font-medium tracking-wide hover:text-foreground transition-colors bg-transparent hover:bg-transparent focus:bg-transparent p-0 h-auto">
+                        Collections
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid gap-2 p-4 w-[200px]">
+                            {collections.slice(0, 8).map((collection) => (
+                                <li key={collection.slug}>
+                                    <Link
+                                        href={`/collection/${collection.slug}`}
+                                        className="block text-sm text-foreground/80 hover:text-foreground hover:bg-muted rounded-md px-3 py-2 transition-colors"
+                                    >
+                                        {collection.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     );

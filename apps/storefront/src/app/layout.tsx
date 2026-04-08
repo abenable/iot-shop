@@ -1,7 +1,7 @@
 import type {Metadata, Viewport} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
 import {Toaster} from "@/components/ui/sonner";
-import {Navbar} from "@/components/layout/navbar";
+import {NavbarWrapper} from "@/components/layout/navbar-wrapper";
 import {Footer} from "@/components/layout/footer";
 import {ThemeProvider} from "@/components/providers/theme-provider";
 import {SITE_NAME, SITE_URL} from "@/lib/metadata";
@@ -62,7 +62,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                 className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen pt-12`}
             >
                 <ThemeProvider>
-                    <Navbar />
+                    <NavbarWrapper />
                     {children}
                     <Footer/>
                     <Toaster/>

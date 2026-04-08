@@ -17,12 +17,12 @@ export function CartIcon({cartItemCount}: CartIconProps) {
             nativeButton={false} 
             variant="ghost" 
             size="icon" 
-            className="relative text-white/90 hover:text-white hover:bg-white/10"
+            className="relative text-foreground/80 hover:text-foreground hover:bg-muted"
         >
             <ShoppingBag className="h-4 w-4"/>
             {cartItemCount > 0 && (
                 <span
-                    className="absolute -top-0.5 -right-0.5 bg-[#0071e3] text-white text-[10px] font-semibold rounded-full h-4 w-4 flex items-center justify-center"
+                    className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] font-semibold rounded-full h-4 w-4 flex items-center justify-center"
                 >
                     {cartItemCount > 9 ? '9+' : cartItemCount}
                 </span>
