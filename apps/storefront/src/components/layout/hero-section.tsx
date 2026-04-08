@@ -13,7 +13,7 @@ export async function HeroSection() {
                         className="text-[40px] md:text-[56px] lg:text-[72px] font-semibold tracking-tight leading-[1.1] text-[#1d1d1f] dark:text-white animate-fade-up"
                         style={{ letterSpacing: '-0.025em' }}
                     >
-                        IoT Hub{" "}
+                        IoTex{" "}
                         <span className="text-[#0071e3]">Uganda</span>
                     </h1>
                     <p

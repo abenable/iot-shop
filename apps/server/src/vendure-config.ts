@@ -162,7 +162,7 @@ export const config: VendureConfig = {
         path.join(__dirname, "../static/email/templates"),
       ),
       globalTemplateVars: {
-        fromAddress: `"IoT Hub Uganda" <iothub@byte10x.dev>`,
+        fromAddress: `"IoTex Uganda" <noreply@iotex.tech>`,
         verifyEmailAddressUrl: IS_DEV
           ? "http://localhost:3001/verify"
           : `${process.env.NEXT_PUBLIC_SITE_URL}/verify`,

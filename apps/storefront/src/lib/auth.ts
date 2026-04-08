@@ -1,6 +1,6 @@
 import {cookies} from 'next/headers';
 
-const AUTH_TOKEN_COOKIE = process.env.VENDURE_AUTH_TOKEN_COOKIE || 'iothub-auth-token';
+const AUTH_TOKEN_COOKIE = process.env.VENDURE_AUTH_TOKEN_COOKIE || 'iotex-auth-token';
 
 export async function setAuthToken(token: string) {
     const cookieStore = await cookies();

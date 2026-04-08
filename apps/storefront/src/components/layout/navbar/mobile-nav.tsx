@@ -54,7 +54,7 @@ export function MobileNav({collections}: MobileNavProps) {
                     {/* Header */}
                     <div className="flex items-center justify-between h-12 px-4 border-b border-border">
                         <span className="text-foreground text-sm font-medium tracking-tight">
-                            IoT Hub
+                            IoTex
                         </span>
                         <Button 
                             variant="ghost" 

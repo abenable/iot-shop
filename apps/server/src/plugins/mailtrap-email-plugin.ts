@@ -16,7 +16,7 @@ export function createMailtrapEmailPlugin(fromEmail: string, siteUrl: string) {
         handlers: defaultEmailHandlers,
         templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../../static/email/templates')),
         globalTemplateVars: {
-            fromAddress: `"IoT Hub Uganda" <${fromEmail}>`,
+            fromAddress: `"IoTex Uganda" <${fromEmail}>`,
             verifyEmailAddressUrl: `${siteUrl}/verify`,
             passwordResetUrl: `${siteUrl}/reset-password`,
             changeEmailAddressUrl: `${siteUrl}/verify-email-address-change`,

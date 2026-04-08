@@ -7,7 +7,7 @@ import {Textarea} from '@/components/ui/textarea';
 export async function generateMetadata(): Promise<Metadata> {
     return {
         title: 'Contact Us',
-        description: 'Get in touch with IoT Hub Uganda for all your electronics needs.',
+        description: 'Get in touch with IoTex Uganda for all your electronics needs.',
     };
 }
 
@@ -16,8 +16,8 @@ export default async function ContactPage() {
         {
             icon: Mail,
             label: 'Email',
-            value: 'support@iothub.ug',
-            href: 'mailto:support@iothub.ug',
+            value: 'support@iotex.tech',
+            href: 'mailto:support@iotex.tech',
         },
         {
             icon: Phone,

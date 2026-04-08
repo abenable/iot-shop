@@ -9,12 +9,12 @@ export function Footer() {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                     {/* Left - Copyright */}
                     <span className="text-sm text-muted-foreground">
-                        © {COPYRIGHT_YEAR} IoT Hub Uganda. All rights reserved.
+                        © {COPYRIGHT_YEAR} IoTex Uganda. All rights reserved.
                     </span>
                     
                     {/* Center - Brand name */}
                     <NavigationLink href="/" className="text-lg font-bold text-foreground hover:text-primary transition-colors">
-                        IoT Hub
+                        IoTex
                     </NavigationLink>
                     
                     {/* Right - Links */}

@@ -1,6 +1,6 @@
 import {cookies} from 'next/headers';
 
-const CURRENCY_COOKIE = 'iothub-currency';
+const CURRENCY_COOKIE = 'iotex-currency';
 
 export async function setCurrencyCookie(currencyCode: string) {
     const cookieStore = await cookies();

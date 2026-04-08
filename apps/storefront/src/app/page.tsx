@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     },
     openGraph: {
         title: `${SITE_NAME} - Your Source for Electronics`,
-        description: "Shop the best electronics components at IoT Hub Uganda.",
+        description: "Shop the best electronics components at IoTex Uganda.",
         type: "website",
         locale: "en_US",
         url: SITE_URL,
@@ -116,7 +116,7 @@ export default function Home() {
 
                 <div className="relative z-10 max-w-[980px] mx-auto px-6 text-center">
                     <h1 className="text-[48px] md:text-[64px] lg:text-[80px] font-semibold text-foreground mb-6 tracking-tight animate-in fade-in slide-in-from-top-4 duration-700">
-                        IoT Hub{' '}
+                        IoTex{' '}
                         <span className="text-primary">Uganda</span>
                     </h1>
 
@@ -198,7 +198,7 @@ export default function Home() {
                         Ready to Start Building?
                     </h2>
                     <p className="text-[16px] md:text-[17px] text-muted-foreground max-w-[500px] mx-auto mb-6">
-                        Join thousands of makers, students, and professionals who trust IoT Hub Uganda for their electronics needs.
+                        Join thousands of makers, students, and professionals who trust IoTex Uganda for their electronics needs.
                     </p>
                     <Link
                         href="/search"

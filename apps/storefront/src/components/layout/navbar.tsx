@@ -52,7 +52,7 @@ export function Navbar() {
                                 href="/" 
                                 className="text-foreground text-lg font-bold tracking-tight hover:opacity-80 transition-opacity duration-200"
                             >
-                                IoT Hub
+                                IoTex
                             </Link>
                         </div>
 
@@ -97,7 +97,7 @@ export function Navbar() {
                                 className="text-lg font-bold text-foreground"
                                 onClick={() => setSidebarOpen(false)}
                             >
-                                IoT Hub
+                                IoTex
                             </Link>
                             <Button
                                 variant="ghost"
