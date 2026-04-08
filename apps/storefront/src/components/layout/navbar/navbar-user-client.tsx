@@ -12,9 +12,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { LoginButton } from './login-button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 interface Customer {
     firstName: string;
+    lastName?: string;
 }
 
 export function NavbarUserClient() {
@@ -37,6 +39,14 @@ export function NavbarUserClient() {
         };
         fetchCustomer();
     }, []);
+
+    // Get initials for avatar
+    const getInitials = () => {
+        if (!customer) return '';
+        const first = customer.firstName?.charAt(0).toUpperCase() || '';
+        const last = customer.lastName?.charAt(0).toUpperCase() || '';
+        return first + last || first || 'U';
+    };
 
     if (loading) {
         return (
@@ -61,30 +71,44 @@ export function NavbarUserClient() {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger 
-                render={
-                    <Button 
-                        variant="ghost" 
-                        size="icon"
-                        className="text-foreground/80 hover:text-foreground hover:bg-muted"
-                    />
-                }
-            >
-                <User className="h-4 w-4"/>
+            <DropdownMenuTrigger asChild>
+                <Button 
+                    variant="ghost" 
+                    className="relative h-9 w-9 rounded-full"
+                >
+                    <Avatar className="h-8 w-8">
+                        <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
+                            {getInitials()}
+                        </AvatarFallback>
+                    </Avatar>
+                </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-                <div className="px-2 py-1.5 text-sm font-medium text-foreground">
-                    Hello, {customer.firstName}
+            <DropdownMenuContent align="end" className="w-56">
+                <div className="flex items-center gap-2 p-2">
+                    <Avatar className="h-8 w-8">
+                        <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
+                            {getInitials()}
+                        </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                        <span className="text-sm font-medium">{customer.firstName}</span>
+                        <span className="text-xs text-muted-foreground">My Account</span>
+                    </div>
                 </div>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem render={<Link href="/account/profile" />}>
-                    Profile
+                <DropdownMenuItem asChild>
+                    <Link href="/account/profile" className="cursor-pointer">Profile</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem render={<Link href="/account/orders" />}>
-                    Orders
+                <DropdownMenuItem asChild>
+                    <Link href="/account/orders" className="cursor-pointer">Orders</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/account/addresses" className="cursor-pointer">Addresses</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem render={<LoginButton isLoggedIn={true} />} />
+                <DropdownMenuItem asChild>
+                    <LoginButton isLoggedIn={true} className="w-full justify-start cursor-pointer" />
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );
