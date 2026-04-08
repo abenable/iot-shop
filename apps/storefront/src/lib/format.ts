@@ -1,4 +1,3 @@
-
 type DateFormat = 'short' | 'long';
 
 /**
@@ -12,5 +11,8 @@ export function formatDate(dateString: string, format: DateFormat = 'short', loc
         ? { year: 'numeric', month: 'long', day: 'numeric' }
         : { year: 'numeric', month: 'short', day: 'numeric' };
 
-    return new Date(dateString).toLocaleDateString(toIntlLocale(locale), options);
+    // Map app locale to Intl locale
+    const intlLocale = locale === 'en' ? 'en-US' : locale;
+    
+    return new Date(dateString).toLocaleDateString(intlLocale, options);
 }

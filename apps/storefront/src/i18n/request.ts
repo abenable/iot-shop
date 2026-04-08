@@ -1,3 +1,4 @@
+import {getRequestConfig} from 'next-intl/server';
 
 export default getRequestConfig(async () => {
     // Always use 'en' since we don't need translations

@@ -7,7 +7,6 @@ import {redirect} from 'next/navigation';
 import {revalidatePath} from "next/cache";
 
 export async function loginAction(prevState: { error?: string } | undefined, formData: FormData) {
-    const t = await getTranslations('Errors');
     const username = formData.get('username') as string;
     const password = formData.get('password') as string;
     const redirectTo = formData.get('redirectTo') as string | null;
@@ -21,9 +20,9 @@ export async function loginAction(prevState: { error?: string } | undefined, for
 
     if (loginResult.__typename !== 'CurrentUser') {
         if (loginResult.__typename === 'NotVerifiedError') {
-            return { error: t('verifyEmailFirst') };
+            return { error: "Please verify your email first" };
         }
-        return { error: t('invalidCredentials') };
+        return { error: "Invalid credentials" };
     }
 
     // Store the token in a cookie if returned

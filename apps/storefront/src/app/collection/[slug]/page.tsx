@@ -88,9 +88,6 @@ export async function generateMetadata({
         description,
         alternates: {
             canonical: buildCanonicalUrl(`${collectionPath}`),
-            languages: Object.fromEntries(
-                routing.locales.map((l) => [l, buildCanonicalUrl(`/${l}${collectionPath}`)])
-            ),
         },
         openGraph: {
             title: collection.name,

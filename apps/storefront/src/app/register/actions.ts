@@ -5,7 +5,6 @@ import {RegisterCustomerAccountMutation} from '@/lib/vendure/mutations';
 import {redirect} from 'next/navigation';
 
 export async function registerAction(prevState: { error?: string } | undefined, formData: FormData) {
-    const t = await getTranslations('Errors');
     const emailAddress = formData.get('emailAddress') as string;
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
@@ -14,7 +13,7 @@ export async function registerAction(prevState: { error?: string } | undefined, 
     const redirectTo = formData.get('redirectTo') as string | null;
 
     if (!emailAddress || !password) {
-        return {error: t('emailPasswordRequired')};
+        return {error: "Email and password are required"};
     }
 
 

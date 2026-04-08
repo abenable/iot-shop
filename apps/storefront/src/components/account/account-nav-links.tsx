@@ -14,7 +14,7 @@ const iconMap: Record<string, LucideIcon> = {
 
 interface NavItem {
     href: string;
-    labelKey: string;
+    label: string;
     icon: string;
 }
 
@@ -45,7 +45,7 @@ export function AccountNavLinks({items, layout}: AccountNavLinksProps) {
                             )}
                         >
                             {Icon && <Icon className="h-4 w-4" />}
-                            {t(item.labelKey)}
+                            {item.label}
                         </Link>
                     );
                 })}
@@ -70,7 +70,7 @@ export function AccountNavLinks({items, layout}: AccountNavLinksProps) {
                         )}
                     >
                         {Icon && <Icon className="h-5 w-5" />}
-                        {t(item.labelKey)}
+                        {item.label}
                     </Link>
                 );
             })}

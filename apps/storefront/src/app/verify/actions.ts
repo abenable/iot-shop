@@ -5,10 +5,8 @@ import {VerifyCustomerAccountMutation} from '@/lib/vendure/mutations';
 import {setAuthToken} from '@/lib/auth';
 
 export async function verifyAccountAction(token: string, password?: string) {
-    const t = await getTranslations('Errors');
-
     if (!token) {
-        return {error: t('verificationTokenRequired')};
+        return {error: "Verification token is required"};
     }
 
     try {
@@ -30,6 +28,6 @@ export async function verifyAccountAction(token: string, password?: string) {
 
         return {success: true};
     } catch {
-        return {error: t('unexpectedError')};
+        return {error: "An unexpected error occurred"};
     }
 }

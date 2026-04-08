@@ -6,17 +6,16 @@ import {setAuthToken} from '@/lib/auth';
 import {redirect} from 'next/navigation';
 
 export async function resetPasswordAction(prevState: { error?: string } | undefined, formData: FormData) {
-    const t = await getTranslations('Errors');
     const token = formData.get('token') as string;
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
 
     if (!token || !password || !confirmPassword) {
-        return {error: t('fieldsRequired')};
+        return {error: "All fields are required"};
     }
 
     if (password !== confirmPassword) {
-        return {error: t('passwordsMismatch')};
+        return {error: "Passwords do not match"};
     }
 
 

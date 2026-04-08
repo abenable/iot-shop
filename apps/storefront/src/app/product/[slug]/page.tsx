@@ -72,9 +72,6 @@ export async function generateMetadata({
         description: description || fallbackDescription,
         alternates: {
             canonical: buildCanonicalUrl(`${productPath}`),
-            languages: Object.fromEntries(
-                routing.locales.map((l) => [l, buildCanonicalUrl(`/${l}${productPath}`)])
-            ),
         },
         openGraph: {
             title: product.name,

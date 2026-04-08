@@ -49,7 +49,7 @@ const GetOrderByCodeQuery = graphql(`
 `);
 
 interface OrderConfirmationProps {
-    paramsPromise: Promise<{ locale: string; code: string }>;
+    paramsPromise: Promise<{ code: string }>;
 }
 
 export async function OrderConfirmation({paramsPromise}: OrderConfirmationProps) {

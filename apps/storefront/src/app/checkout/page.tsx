@@ -41,11 +41,11 @@ export default async function CheckoutPage() {
     const activeOrder = orderRes.data.activeOrder;
 
     if (!activeOrder || activeOrder.lines.length === 0) {
-        return redirect({href: '/cart', locale});
+        return redirect('/cart');
     }
 
     if (activeOrder.state !== 'AddingItems' && activeOrder.state !== 'ArrangingPayment') {
-        return redirect({href: `/order-confirmation/${activeOrder.code}`, locale});
+        return redirect(`/order-confirmation/${activeOrder.code}`);
     }
 
     const addresses = addressesRes.data.activeCustomer?.addresses || [];

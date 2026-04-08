@@ -8,7 +8,6 @@ import { getActiveCurrencyCode } from '@/lib/currency-server';
 
 export async function addToCart(variantId: string, quantity: number = 1) {
   const currencyCode = await getActiveCurrencyCode();
-  const t = await getTranslations('Errors');
 
   try {
     const result = await mutate(AddToCartMutation, { variantId, quantity }, { useAuthToken: true, currencyCode });
@@ -26,6 +25,6 @@ export async function addToCart(variantId: string, quantity: number = 1) {
       return { success: false, error: result.data.addItemToOrder.message };
     }
   } catch {
-    return { success: false, error: t('failedAddToCart') };
+    return { success: false, error: "Failed to add to cart" };
   }
 }
