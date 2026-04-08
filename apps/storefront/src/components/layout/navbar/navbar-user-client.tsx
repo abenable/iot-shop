@@ -91,17 +91,17 @@ export function NavbarUserClient() {
                     </div>
                 </div>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem asChild>
-                    <Link href="/account/profile" className="cursor-pointer">Profile</Link>
+                <DropdownMenuItem>
+                    <Link href="/account/profile" className="w-full cursor-pointer">Profile</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/account/orders" className="cursor-pointer">Orders</Link>
+                <DropdownMenuItem>
+                    <Link href="/account/orders" className="w-full cursor-pointer">Orders</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/account/addresses" className="cursor-pointer">Addresses</Link>
+                <DropdownMenuItem>
+                    <Link href="/account/addresses" className="w-full cursor-pointer">Addresses</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem>
                     <LoginButton isLoggedIn={true} className="w-full justify-start cursor-pointer" />
                 </DropdownMenuItem>
             </DropdownMenuContent>
