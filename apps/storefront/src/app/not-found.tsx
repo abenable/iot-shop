@@ -50,6 +50,7 @@ export default async function NotFound() {
                                     variant="outline"
                                     size="sm"
                                     className="rounded-full"
+                                    nativeButton={false}
                                 >
                                     {collection.name}
                                 </Button>
