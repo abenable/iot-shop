@@ -18,11 +18,9 @@ export async function NavbarUser() {
 
     if (!customer) {
         return (
-            <Button 
-                render={<LoginButton isLoggedIn={false} />} 
-                nativeButton={false} 
-                variant="ghost" 
-                className="text-white/90 hover:text-white hover:bg-white/10"
+            <LoginButton 
+                isLoggedIn={false} 
+                className="inline-flex items-center justify-center rounded-full px-4 h-9 text-sm font-medium text-white/90 hover:text-white hover:bg-white/10 transition-colors"
             />
         );
     }
