@@ -1,9 +1,8 @@
 'use client';
 
-import {ShoppingCart} from "lucide-react";
+import {ShoppingBag} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import { Link } from '@/i18n/navigation';
-import {useTranslations} from 'next-intl';
+import Link from 'next/link';
 
 
 interface CartIconProps {
@@ -11,17 +10,24 @@ interface CartIconProps {
 }
 
 export function CartIcon({cartItemCount}: CartIconProps) {
-    const t = useTranslations('Navigation');
+    
     return (
-        <Button render={<Link href="/cart" />} nativeButton={false} variant="ghost" size="icon" className="relative">
-            <ShoppingCart className="h-5 w-5"/>
+        <Button 
+            render={<Link href="/cart" />} 
+            nativeButton={false} 
+            variant="ghost" 
+            size="icon" 
+            className="relative text-white/90 hover:text-white hover:bg-white/10"
+        >
+            <ShoppingBag className="h-4 w-4"/>
             {cartItemCount > 0 && (
                 <span
-                    className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartItemCount}
+                    className="absolute -top-0.5 -right-0.5 bg-[#0071e3] text-white text-[10px] font-semibold rounded-full h-4 w-4 flex items-center justify-center"
+                >
+                    {cartItemCount > 9 ? '9+' : cartItemCount}
                 </span>
             )}
-            <span className="sr-only">{t('shoppingCart')}</span>
+            <span className="sr-only">Shopping Cart</span>
         </Button>
     );
 }

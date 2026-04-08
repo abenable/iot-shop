@@ -1,24 +1,28 @@
 import { ProductCarousel } from "@/components/commerce/product-carousel";
-import { getRouteLocale } from "@/i18n/server";
 import { cacheLife, cacheTag } from "next/cache";
 import {getActiveCurrencyCode} from '@/lib/currency-server';
 import { query } from "@/lib/vendure/api";
 import { GetCollectionProductsQuery } from "@/lib/vendure/queries";
 import { readFragment } from "@/graphql";
 import { ProductCardFragment } from "@/lib/vendure/fragments";
-import {getTranslations} from 'next-intl/server';
 
 interface RelatedProductsProps {
     collectionSlug: string;
     currentProductId: string;
 }
 
-async function getRelatedProducts(collectionSlug: string, currentProductId: string, currencyCode: string) {
+interface GetRelatedProductsParams {
+    collectionSlug: string;
+    currentProductId: string;
+    currencyCode: string;
+    locale: string;
+}
+
+async function getRelatedProducts({collectionSlug, currentProductId, currencyCode, locale}: GetRelatedProductsParams) {
     'use cache'
     cacheLife({ expire: 300, stale: 300 }) // 5 minutes
 
-    const locale = await getRouteLocale();
-    cacheTag(`related-products-${collectionSlug}-${locale}-${currencyCode}`);
+    cacheTag(`related-products-${collectionSlug}-en-${currencyCode}`);
     cacheTag('products');
 
     const result = await query(GetCollectionProductsQuery, {
@@ -29,7 +33,7 @@ async function getRelatedProducts(collectionSlug: string, currentProductId: stri
             skip: 0,
             groupByProduct: true
         }
-    }, {languageCode: locale, currencyCode});
+    }, {languageCode:  currencyCode});
 
     // Filter out the current product and limit to 12
     return result.data.search.items
@@ -41,10 +45,9 @@ async function getRelatedProducts(collectionSlug: string, currentProductId: stri
 }
 
 export async function RelatedProducts({ collectionSlug, currentProductId }: RelatedProductsProps) {
-    const locale = await getRouteLocale();
+    const locale = "en";
     const currencyCode = await getActiveCurrencyCode();
-    const t = await getTranslations({locale, namespace: 'Product'});
-    const products = await getRelatedProducts(collectionSlug, currentProductId, currencyCode);
+    const products = await getRelatedProducts({collectionSlug, currentProductId, currencyCode, locale});
 
     if (products.length === 0) {
         return null;
@@ -52,7 +55,7 @@ export async function RelatedProducts({ collectionSlug, currentProductId }: Rela
 
     return (
         <ProductCarousel
-            title={t('relatedProducts')}
+            title="Related Products"
             products={products}
         />
     );

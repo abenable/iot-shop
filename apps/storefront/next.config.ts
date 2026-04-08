@@ -1,21 +1,16 @@
 import {NextConfig} from 'next';
-import createNextIntlPlugin from 'next-intl/plugin';
-
-const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
     cacheComponents: true,
-    // Disable static generation for all pages - they require API access
     output: 'standalone',
-    poweredByHeader: false, // Remove X-Powered-By header for security
-    compress: true, // Enable gzip compression
+    poweredByHeader: false,
+    compress: true,
     images: {
-        // This is necessary to display images from your local Vendure instance
         dangerouslyAllowLocalIP: true,
-        minimumCacheTTL: 60 * 60 * 24 * 30, // Cache optimized images for 30 days
-        formats: ['image/webp', 'image/avif'], // Prioritize modern formats
-        deviceSizes: [640, 750, 828, 1080, 1200, 1920], // Standard device sizes
-        imageSizes: [16, 32, 48, 64, 96, 128, 256], // Standard image sizes
+        minimumCacheTTL: 60 * 60 * 24 * 30,
+        formats: ['image/webp', 'image/avif'],
+        deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+        imageSizes: [16, 32, 48, 64, 96, 128, 256],
         remotePatterns: [
             {
                 hostname: 'readonlydemo.vendure.io',
@@ -37,10 +32,6 @@ const nextConfig: NextConfig = {
             }
         ],
     },
-    experimental: {
-        rootParams: true
-    },
-    // Add custom headers for caching
     async headers() {
         return [
             {
@@ -65,4 +56,4 @@ const nextConfig: NextConfig = {
     }
 };
 
-export default withNextIntl(nextConfig);
+export default nextConfig;

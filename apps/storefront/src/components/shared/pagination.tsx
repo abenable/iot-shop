@@ -1,9 +1,8 @@
 'use client';
 
-import {useSearchParams} from 'next/navigation';
-import {usePathname, Link} from '@/i18n/navigation';
+import {useSearchParams, usePathname} from 'next/navigation';
+import Link from 'next/link';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
-import {Button} from '@/components/ui/button';
 
 interface PaginationProps {
     currentPage: number;
@@ -50,55 +49,65 @@ export function Pagination({currentPage, totalPages}: PaginationProps) {
     const pages = getPageNumbers();
 
     return (
-        <nav className="flex items-center justify-center gap-2">
-            <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full"
-                render={currentPage !== 1 ? <Link href={createPageUrl(currentPage - 1)} /> : undefined}
-                nativeButton={currentPage !== 1 ? false : undefined}
-                disabled={currentPage === 1}
+        <nav className="flex items-center justify-center gap-3">
+            {/* Previous Button */}
+            <Link
+                href={createPageUrl(currentPage - 1)}
+                className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 ${
+                    currentPage === 1
+                        ? 'border-[#d2d2d7] text-[#d2d2d7] cursor-not-allowed pointer-events-none'
+                        : 'border-[#d2d2d7] text-[#000000] hover:bg-[#f5f5f7] hover:border-[#86868b]'
+                }`}
+                aria-disabled={currentPage === 1}
             >
-                <ChevronLeft className="h-4 w-4"/>
-            </Button>
+                <ChevronLeft className="h-5 w-5"/>
+            </Link>
 
-            {pages.map((page, index) => {
-                if (page === '...') {
-                    return (
-                        <span key={`dots-${index}`} className="px-2 text-muted-foreground">
-                            ...
+            {/* Page Numbers */}
+            <div className="flex items-center gap-2">
+                {pages.map((page, index) => {
+                    if (page === '...') {
+                        return (
+                            <span key={`dots-${index}`} className="px-2 text-[#86868b] text-[15px]">
+                                ...
+                            </span>
+                        );
+                    }
+
+                    const pageNum = page as number;
+                    const isActive = pageNum === currentPage;
+
+                    return isActive ? (
+                        <span
+                            key={pageNum}
+                            className="flex items-center justify-center w-10 h-10 rounded-full bg-[#000000] text-white text-[15px] font-medium"
+                        >
+                            {pageNum}
                         </span>
+                    ) : (
+                        <Link
+                            key={pageNum}
+                            href={createPageUrl(pageNum)}
+                            className="flex items-center justify-center w-10 h-10 rounded-full text-[#000000] text-[15px] font-normal hover:bg-[#f5f5f7] transition-colors duration-200"
+                        >
+                            {pageNum}
+                        </Link>
                     );
-                }
+                })}
+            </div>
 
-                const pageNum = page as number;
-                const isActive = pageNum === currentPage;
-
-                return (
-                    <Button
-                        key={pageNum}
-                        variant={isActive ? 'default' : 'outline'}
-                        size="icon"
-                        className="rounded-full"
-                        render={!isActive ? <Link href={createPageUrl(pageNum)} /> : undefined}
-                        nativeButton={!isActive ? false : undefined}
-                        disabled={isActive}
-                    >
-                        {pageNum}
-                    </Button>
-                );
-            })}
-
-            <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full"
-                render={currentPage !== totalPages ? <Link href={createPageUrl(currentPage + 1)} /> : undefined}
-                nativeButton={currentPage !== totalPages ? false : undefined}
-                disabled={currentPage === totalPages}
+            {/* Next Button */}
+            <Link
+                href={createPageUrl(currentPage + 1)}
+                className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-200 ${
+                    currentPage === totalPages
+                        ? 'border-[#d2d2d7] text-[#d2d2d7] cursor-not-allowed pointer-events-none'
+                        : 'border-[#d2d2d7] text-[#000000] hover:bg-[#f5f5f7] hover:border-[#86868b]'
+                }`}
+                aria-disabled={currentPage === totalPages}
             >
-                <ChevronRight className="h-4 w-4"/>
-            </Button>
+                <ChevronRight className="h-5 w-5"/>
+            </Link>
         </nav>
     );
 }

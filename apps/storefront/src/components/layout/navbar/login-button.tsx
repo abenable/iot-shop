@@ -1,16 +1,15 @@
 'use client'
 
 import {ComponentProps, useTransition} from "react";
-import {logoutAction} from "@/app/[locale]/sign-in/actions";
-import {useRouter} from '@/i18n/navigation';
-import {useTranslations} from 'next-intl';
+import {logoutAction} from "@/app/sign-in/actions";
+import {useRouter} from 'next/navigation';
 
 interface LoginButtonProps extends ComponentProps<'button'> {
     isLoggedIn: boolean;
 }
 
 export function LoginButton({isLoggedIn, ...props}: LoginButtonProps) {
-    const t = useTranslations('Navigation');
+    
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 
@@ -25,7 +24,7 @@ export function LoginButton({isLoggedIn, ...props}: LoginButtonProps) {
                         router.push('/sign-in')
                     }
                 }}>
-            {isLoggedIn ? t('signOut') : t('signIn')}
+            {isLoggedIn ? "Sign Out" : "Sign In"}
         </button>
     )
 }

@@ -1,6 +1,5 @@
 'use client';
 
-import {useTranslations} from 'next-intl';
 import {Coins} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {
@@ -9,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {useRouter} from '@/i18n/navigation';
+import {useRouter} from 'next/navigation';
 import {switchCurrency} from '@/lib/actions/switch-currency';
 import {useTransition} from 'react';
 
@@ -19,7 +18,7 @@ interface CurrencyPickerProps {
 }
 
 export function CurrencyPicker({availableCurrencyCodes, activeCurrencyCode}: CurrencyPickerProps) {
-    const t = useTranslations('Navigation');
+    
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
 
@@ -36,7 +35,7 @@ export function CurrencyPicker({availableCurrencyCodes, activeCurrencyCode}: Cur
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="ghost" size="sm" className="gap-1.5" aria-label={t('switchCurrency')} />}>
+            <DropdownMenuTrigger render={<Button variant="ghost" size="sm" className="gap-1.5" aria-label="Switch Currency" />}>
                 <Coins className="size-4" />
                 <span>{activeCurrencyCode}</span>
             </DropdownMenuTrigger>

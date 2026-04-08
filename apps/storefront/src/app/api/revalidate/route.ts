@@ -1,6 +1,5 @@
 import {revalidateTag} from 'next/cache';
 import {NextRequest, NextResponse} from 'next/server';
-import {routing} from '@/i18n/routing';
 
 // Supported base cache tags that can be revalidated.
 // These are the tag names WITHOUT locale suffixes.
@@ -71,15 +70,13 @@ export async function POST(request: NextRequest) {
                 continue;
             }
 
-            // Revalidate for every locale
-            for (const locale of routing.locales) {
-                const localizedTag = `${tag}-${locale}`;
-                try {
-                    revalidateTag(localizedTag, {expire: 0});
-                    results.push({tag: localizedTag, success: true});
-                } catch {
-                    results.push({tag: localizedTag, success: false, error: 'Revalidation failed'});
-                }
+            // Revalidate with locale suffix (we use 'en' as the only locale)
+            const localizedTag = `${tag}-en`;
+            try {
+                revalidateTag(localizedTag, {expire: 0});
+                results.push({tag: localizedTag, success: true});
+            } catch {
+                results.push({tag: localizedTag, success: false, error: 'Revalidation failed'});
             }
         }
 

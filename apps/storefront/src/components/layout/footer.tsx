@@ -1,58 +1,54 @@
-import {getRouteLocale} from '@/i18n/server';
 import {cacheLife, cacheTag} from 'next/cache';
 import {getTopCollections} from '@/lib/vendure/cached';
 import {NavigationLink} from '@/components/shared/navigation-link';
-import {getTranslations} from 'next-intl/server';
-
 
 const COPYRIGHT_YEAR = new Date().getFullYear();
 
-async function Copyright() {
+interface FooterContentResult {
+    collections: Awaited<ReturnType<typeof getTopCollections>>;
+}
+
+async function FooterContent(): Promise<FooterContentResult> {
     'use cache'
     cacheLife({ expire: 300, stale: 300 }); // 5 minutes
 
-    const locale = await getRouteLocale();
-    const t = await getTranslations({locale, namespace: 'Footer'});
+    cacheTag(`footer-en`);
 
-    return (
-        <div>
-            {t('copyright', {year: COPYRIGHT_YEAR})}
-        </div>
-    )
+    const collections = await getTopCollections('en');
+    return { collections };
 }
 
 export async function Footer() {
-    'use cache'
-    cacheLife({ expire: 300, stale: 300 }); // 5 minutes
-
-    const locale = await getRouteLocale();
-    cacheTag(`footer-${locale}`);
-
-    const t = await getTranslations({locale, namespace: 'Footer'});
-    const collections = await getTopCollections(locale);
+    const { collections } = await FooterContent();
 
     return (
-        <footer className="border-t border-border mt-auto">
-            <div className="container mx-auto px-4 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div className="md:col-span-1">
-                        <NavigationLink href="/" className="inline-block mb-4 text-xl font-bold">
-                            <span className="text-primary">IoT</span>
-                            <span className="font-semibold">Hub</span>
+        <footer className="bg-[#f5f5f7] mt-auto">
+            {/* Main Footer Content */}
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
+                    {/* Brand Column */}
+                    <div className="col-span-2 md:col-span-4 lg:col-span-1 mb-4 lg:mb-0">
+                        <NavigationLink href="/" className="inline-block mb-4">
+                            <span className="text-[#1d1d1f] text-lg font-semibold tracking-tight">
+                                IoT Hub
+                            </span>
                         </NavigationLink>
-                        <p className="text-sm text-muted-foreground text-balance leading-relaxed">
-                            {t('description')}
+                        <p className="text-sm text-[#6e6e73] leading-relaxed max-w-xs">
+                            Quality electronics for makers and professionals
                         </p>
                     </div>
 
+                    {/* Categories Column */}
                     <div>
-                        <p className="text-sm font-semibold mb-4">{t('categories')}</p>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            {collections.map((collection) => (
+                        <h3 className="text-xs font-semibold text-[#1d1d1f] uppercase tracking-wider mb-4">
+                            Categories
+                        </h3>
+                        <ul className="space-y-3">
+                            {collections.slice(0, 5).map((collection) => (
                                 <li key={collection.id}>
                                     <NavigationLink
                                         href={`/collection/${collection.slug}`}
-                                        className="hover:text-foreground transition-colors"
+                                        className="text-sm text-[#6e6e73] hover:text-[#0071e3] transition-colors duration-200"
                                     >
                                         {collection.name}
                                     </NavigationLink>
@@ -61,71 +57,96 @@ export async function Footer() {
                         </ul>
                     </div>
 
+                    {/* Customer Service Column */}
                     <div>
-                        <p className="text-sm font-semibold mb-4">{t('customer')}</p>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
+                        <h3 className="text-xs font-semibold text-[#1d1d1f] uppercase tracking-wider mb-4">
+                            Customer Service
+                        </h3>
+                        <ul className="space-y-3">
                             <li>
                                 <NavigationLink
                                     href="/search"
-                                    className="hover:text-foreground transition-colors"
+                                    className="text-sm text-[#6e6e73] hover:text-[#0071e3] transition-colors duration-200"
                                 >
-                                    {t('shopAll')}
+                                    Shop All
                                 </NavigationLink>
                             </li>
                             <li>
                                 <NavigationLink
                                     href="/account/orders"
-                                    className="hover:text-foreground transition-colors"
+                                    className="text-sm text-[#6e6e73] hover:text-[#0071e3] transition-colors duration-200"
                                 >
-                                    {t('orders')}
+                                    Orders
                                 </NavigationLink>
                             </li>
                             <li>
                                 <NavigationLink
                                     href="/account/profile"
-                                    className="hover:text-foreground transition-colors"
+                                    className="text-sm text-[#6e6e73] hover:text-[#0071e3] transition-colors duration-200"
                                 >
-                                    {t('account')}
+                                    Account
                                 </NavigationLink>
                             </li>
                         </ul>
                     </div>
 
+                    {/* Company Column */}
                     <div>
-                        <p className="text-sm font-semibold mb-4">{t('company')}</p>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
+                        <h3 className="text-xs font-semibold text-[#1d1d1f] uppercase tracking-wider mb-4">
+                            Company
+                        </h3>
+                        <ul className="space-y-3">
                             <li>
                                 <NavigationLink
                                     href="/about"
-                                    className="hover:text-foreground transition-colors"
+                                    className="text-sm text-[#6e6e73] hover:text-[#0071e3] transition-colors duration-200"
                                 >
-                                    {t('aboutUs')}
+                                    About Us
                                 </NavigationLink>
                             </li>
                             <li>
                                 <NavigationLink
                                     href="/contact"
-                                    className="hover:text-foreground transition-colors"
+                                    className="text-sm text-[#6e6e73] hover:text-[#0071e3] transition-colors duration-200"
                                 >
-                                    {t('contact')}
+                                    Contact
                                 </NavigationLink>
                             </li>
                             <li>
                                 <NavigationLink
                                     href="/support"
-                                    className="hover:text-foreground transition-colors"
+                                    className="text-sm text-[#6e6e73] hover:text-[#0071e3] transition-colors duration-200"
                                 >
-                                    {t('support')}
+                                    Support
                                 </NavigationLink>
                             </li>
                         </ul>
                     </div>
                 </div>
+            </div>
 
-                {/* Bottom Section */}
-                <div
-                    className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-                    <Copyright/>
+            {/* Bottom Bar */}
+            <div className="border-t border-[#d2d2d7] dark:border-[#38383a]">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div className="text-xs text-[#86868b]">
+                            © {COPYRIGHT_YEAR} IoT Hub Uganda. All rights reserved.
+                        </div>
+                        <div className="flex items-center gap-6">
+                            <NavigationLink
+                                href="/privacy"
+                                className="text-xs text-[#86868b] hover:text-[#0071e3] transition-colors duration-200"
+                            >
+                                Privacy Policy
+                            </NavigationLink>
+                            <NavigationLink
+                                href="/terms"
+                                className="text-xs text-[#86868b] hover:text-[#0071e3] transition-colors duration-200"
+                            >
+                                Terms of Use
+                            </NavigationLink>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>

@@ -1,4 +1,3 @@
-import {getRouteLocale} from '@/i18n/server';
 import {User} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {
@@ -8,32 +7,50 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Link } from '@/i18n/navigation';
+import Link from 'next/link';
 import {LoginButton} from "@/components/layout/navbar/login-button";
 import {getActiveCustomer} from "@/lib/vendure/actions";
-import {getTranslations} from 'next-intl/server';
 
 
 export async function NavbarUser() {
-    const locale = await getRouteLocale();
-    const t = await getTranslations({locale, namespace: 'Navigation'});
+    const locale = "en";
     const customer = await getActiveCustomer()
 
     if (!customer) {
         return (
-            <Button render={<LoginButton isLoggedIn={false} />} nativeButton={false} variant="ghost" />
+            <Button 
+                render={<LoginButton isLoggedIn={false} />} 
+                nativeButton={false} 
+                variant="ghost" 
+                className="text-white/90 hover:text-white hover:bg-white/10"
+            />
         );
     }
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant="ghost" />}>
-                <User className="h-5 w-5"/>
-                {t('greeting', {name: customer.firstName})}
+            <DropdownMenuTrigger 
+                render={
+                    <Button 
+                        variant="ghost" 
+                        size="icon"
+                        className="text-white/90 hover:text-white hover:bg-white/10"
+                    />
+                }
+            >
+                <User className="h-4 w-4"/>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                <DropdownMenuItem render={<Link href="/account/profile" />}>{t('profile')}</DropdownMenuItem>
-                <DropdownMenuItem render={<Link href="/account/orders" />}>{t('orders')}</DropdownMenuItem>
+            <DropdownMenuContent align="end" className="w-48">
+                <div className="px-2 py-1.5 text-sm font-medium text-foreground">
+                    Hello, {customer.firstName}
+                </div>
+                <DropdownMenuSeparator/>
+                <DropdownMenuItem render={<Link href="/account/profile" />}>
+                    Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem render={<Link href="/account/orders" />}>
+                    Orders
+                </DropdownMenuItem>
                 <DropdownMenuSeparator/>
                 <DropdownMenuItem render={<LoginButton isLoggedIn={true} />} />
             </DropdownMenuContent>

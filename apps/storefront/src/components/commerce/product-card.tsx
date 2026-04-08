@@ -3,47 +3,48 @@ import {FragmentOf, readFragment} from '@/graphql';
 import {ProductCardFragment} from '@/lib/vendure/fragments';
 import {Price} from '@/components/commerce/price';
 import {Suspense} from "react";
-import { Link } from '@/i18n/navigation';
-import {useTranslations} from 'next-intl';
+import Link from 'next/link';
 
 interface ProductCardProps {
     product: FragmentOf<typeof ProductCardFragment>;
 }
 
 export function ProductCard({product: productProp}: ProductCardProps) {
-    const t = useTranslations('Product');
     const product = readFragment(ProductCardFragment, productProp);
 
     return (
         <Link
             href={`/product/${product.slug}`}
-            className="group block bg-card rounded-xl overflow-hidden border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            className="group block"
         >
-            <div className="aspect-square relative bg-muted overflow-hidden">
+            {/* Product Image - No border, rounded corners, subtle hover effect */}
+            <div className="aspect-square relative bg-[#f5f5f7] rounded-2xl overflow-hidden mb-4 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
                 {product.productAsset ? (
                     <Image
                         src={product.productAsset.preview}
                         alt={product.productName}
                         fill
-                        className="object-cover group-hover:scale-105 group-hover:opacity-90 transition-all duration-500"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                 ) : (
-                    <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                        {t('noImage')}
+                    <div className="w-full h-full flex items-center justify-center text-[#6e6e73] text-sm">
+                        No image
                     </div>
                 )}
             </div>
-            <div className="p-4 space-y-2">
-                <h3 className="font-medium leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+            
+            {/* Product Info - Clean, minimal */}
+            <div className="space-y-1 px-1">
+                <h3 className="text-[17px] font-semibold text-[#000000] leading-tight tracking-tight line-clamp-2 group-hover:text-[#0071e3] transition-colors duration-200">
                     {product.productName}
                 </h3>
-                <Suspense fallback={<div className="h-8 w-36 rounded bg-muted"></div>}>
-                    <p className="text-lg font-bold tracking-tight">
+                <Suspense fallback={<div className="h-6 w-24 rounded bg-[#f5f5f7]"></div>}>
+                    <p className="text-[15px] text-[#000000] font-normal tracking-tight">
                         {product.priceWithTax.__typename === 'PriceRange' ? (
                             product.priceWithTax.min !== product.priceWithTax.max ? (
                                 <>
-                                    <span className="text-xs font-normal text-muted-foreground mr-1">{t('from')}</span>
+                                    <span className="text-[#6e6e73] mr-1">From</span>
                                     <Price value={product.priceWithTax.min} currencyCode={product.currencyCode}/>
                                 </>
                             ) : (

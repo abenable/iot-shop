@@ -120,7 +120,10 @@ export const config: VendureConfig = {
     DefaultSchedulerPlugin.init(),
     // Use Redis-backed BullMQ for job queue (faster than database queue)
     BullMQJobQueuePlugin.init({
-        connection: getRedisConnection(),
+        connection: {
+            ...getRedisConnection(),
+            maxRetriesPerRequest: null,
+        },
         workerOptions: {
             concurrency: 10, // Process 10 jobs in parallel
         },

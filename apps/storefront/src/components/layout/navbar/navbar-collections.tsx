@@ -1,4 +1,3 @@
-import {getRouteLocale} from '@/i18n/server';
 import {cacheLife, cacheTag} from 'next/cache';
 import {getTopCollections} from '@/lib/vendure/cached';
 import {
@@ -8,20 +7,29 @@ import {
 } from '@/components/ui/navigation-menu';
 import {NavbarLink} from '@/components/layout/navbar/navbar-link';
 
-export async function NavbarCollections() {
+interface NavbarCollectionsContentProps {
+    locale: string;
+}
+
+async function NavbarCollectionsContent({locale}: NavbarCollectionsContentProps) {
     "use cache";
     cacheLife({ expire: 300, stale: 300 }); // 5 minutes
 
-    const locale = await getRouteLocale();
     cacheTag(`navbar-collections-${locale}`);
 
     const collections = await getTopCollections(locale);
+    return collections;
+}
+
+export async function NavbarCollections() {
+    const locale = "en";
+    const collections = await NavbarCollectionsContent({locale});
 
     return (
-        <NavigationMenu>
-            <NavigationMenuList>
-                {collections.map((collection) => (
-                    <NavigationMenuItem key={collection.slug}>
+        <NavigationMenu className="gap-0">
+            <NavigationMenuList className="gap-6">
+                {collections.slice(0, 3).map((collection) => (
+                    <NavigationMenuItem key={collection.slug} className="p-0">
                         <NavbarLink href={`/collection/${collection.slug}`}>
                             {collection.name}
                         </NavbarLink>

@@ -1,4 +1,3 @@
-import {toIntlLocale} from '@/i18n/locale-utils';
 
 type DateFormat = 'short' | 'long';
 

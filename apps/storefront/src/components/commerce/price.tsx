@@ -1,19 +1,14 @@
 'use client';
 
-import {useLocale} from 'next-intl';
-import {toIntlLocale} from '@/i18n/locale-utils';
-
 interface PriceProps {
     value: number;
     currencyCode?: string;
 }
 
-export function Price({value, currencyCode = 'USD'}: PriceProps) {
-    const locale = useLocale();
-    const intlLocale = toIntlLocale(locale);
+export function Price({value, currencyCode = 'UGX'}: PriceProps) {
     return (
         <>
-            {new Intl.NumberFormat(intlLocale, {
+            {new Intl.NumberFormat('en-UG', {
                 style: 'currency',
                 currency: currencyCode,
             }).format(value / 100)}

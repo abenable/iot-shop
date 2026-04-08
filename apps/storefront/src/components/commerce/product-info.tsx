@@ -1,17 +1,14 @@
 'use client';
 
 import {useState, useMemo, useTransition} from 'react';
-import {useSearchParams} from 'next/navigation';
-import {usePathname, useRouter} from '@/i18n/navigation';
+import {useSearchParams, usePathname, useRouter} from 'next/navigation';
 import {Button} from '@/components/ui/button';
 import {Label} from '@/components/ui/label';
 import {RadioGroup, RadioGroupItem} from '@/components/ui/radio-group';
-import {Separator} from '@/components/ui/separator';
-import {ShoppingCart, CheckCircle2} from 'lucide-react';
-import {addToCart} from '@/app/[locale]/product/[slug]/actions';
+import {ShoppingCart, CheckCircle2, Zap} from 'lucide-react';
+import {addToCart} from '@/app/product/[slug]/actions';
 import {toast} from 'sonner';
 import {Price} from '@/components/commerce/price';
-import {useTranslations} from 'next-intl';
 
 interface ProductInfoProps {
     product: {
@@ -52,7 +49,6 @@ interface ProductInfoProps {
 }
 
 export function ProductInfo({product, searchParams, currencyCode}: ProductInfoProps) {
-    const t = useTranslations('Product');
     const pathname = usePathname();
     const router = useRouter();
     const currentSearchParams = useSearchParams();
@@ -123,15 +119,32 @@ export function ProductInfo({product, searchParams, currencyCode}: ProductInfoPr
 
             if (result.success) {
                 setIsAdded(true);
-                toast.success(t('addedToCartMessage'), {
-                    description: t('addedToCartDescription', {name: product.name}),
+                toast.success('Added to cart', {
+                    description: `${product.name} has been added to your cart`,
                 });
 
                 // Reset the added state after 2 seconds
                 setTimeout(() => setIsAdded(false), 2000);
             } else {
-                toast.error(t('errorTitle'), {
-                    description: result.error || t('errorAddToCart'),
+                toast.error('Error', {
+                    description: result.error || 'Could not add to cart',
+                });
+            }
+        });
+    };
+
+    const handleBuyNow = async () => {
+        if (!selectedVariant) return;
+
+        startTransition(async () => {
+            const result = await addToCart(selectedVariant.id, 1);
+
+            if (result.success) {
+                // Redirect to checkout
+                router.push('/checkout');
+            } else {
+                toast.error('Error', {
+                    description: result.error || 'Could not add to cart',
                 });
             }
         });
@@ -141,37 +154,39 @@ export function ProductInfo({product, searchParams, currencyCode}: ProductInfoPr
     const canAddToCart = selectedVariant && isInStock;
 
     return (
-        <div className="space-y-6">
-            {/* Product Title & Price */}
-            <div className="space-y-2">
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight">{product.name}</h1>
+        <div className="space-y-6 lg:space-y-8">
+            {/* Product Title - Apple-style large display heading */}
+            <div className="space-y-3">
+                <h1 className="text-[32px] md:text-[40px] lg:text-[48px] font-semibold text-[#1d1d1f] tracking-tight leading-[1.1]">
+                    {product.name}
+                </h1>
+
+                {/* Price - Prominently displayed */}
                 {selectedVariant && (
-                    <p className="text-2xl md:text-3xl text-muted-foreground font-semibold mt-3">
+                    <p className="text-[24px] md:text-[28px] text-[#1d1d1f] font-semibold">
                         <Price value={selectedVariant.priceWithTax} currencyCode={currencyCode}/>
                     </p>
                 )}
             </div>
 
-            <Separator />
-
-            {/* Product Description */}
-            <div className="prose prose-sm max-w-none text-muted-foreground">
+            {/* Short Description */}
+            <div className="prose prose-sm max-w-none text-[#86868b] text-base leading-relaxed">
                 <div dangerouslySetInnerHTML={{__html: product.description}}/>
             </div>
 
-            {/* Option Groups */}
+            {/* Option Groups - Apple-style minimal selectors */}
             {product.optionGroups.length > 0 && (
-                <div className="space-y-5">
+                <div className="space-y-6">
                     {product.optionGroups.map((group) => (
                         <div key={group.id} className="space-y-3">
-                            <Label className="text-base font-semibold">
+                            <Label className="text-[#1d1d1f] text-sm font-semibold">
                                 {group.name}
                             </Label>
                             <RadioGroup
                                 value={selectedOptions[group.id] || ''}
                                 onValueChange={(value) => handleOptionChange(group.id, value)}
                             >
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                <div className="flex flex-wrap gap-3">
                                     {group.options.map((option) => (
                                         <div key={option.id}>
                                             <RadioGroupItem
@@ -181,7 +196,7 @@ export function ProductInfo({product, searchParams, currencyCode}: ProductInfoPr
                                             />
                                             <Label
                                                 htmlFor={option.id}
-                                                className="flex items-center justify-center rounded-lg border-2 border-muted bg-popover px-4 py-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:ring-2 peer-data-[state=checked]:ring-primary/20 peer-data-[state=checked]:bg-primary/5 cursor-pointer transition-all"
+                                                className="flex items-center justify-center rounded-full border border-[#d2d2d7] bg-white px-5 py-2.5 text-sm font-medium text-[#1d1d1f] hover:border-[#0071e3] peer-data-[state=checked]:border-[#0071e3] peer-data-[state=checked]:bg-[#0071e3] peer-data-[state=checked]:text-white cursor-pointer transition-all duration-200"
                                             >
                                                 {option.name}
                                             </Label>
@@ -198,51 +213,64 @@ export function ProductInfo({product, searchParams, currencyCode}: ProductInfoPr
             {selectedVariant && (
                 <div className="text-sm">
                     {isInStock ? (
-                        <span className="inline-flex items-center gap-1.5 text-green-600 font-medium">
-                            <span className="h-2 w-2 rounded-full bg-green-600" />
-                            {t('inStock')}
+                        <span className="inline-flex items-center gap-2 text-[#0071e3] font-medium">
+                            <span className="h-2 w-2 rounded-full bg-[#0071e3]" />
+                            In Stock
                         </span>
                     ) : (
-                        <span className="inline-flex items-center gap-1.5 text-destructive font-medium">
-                            <span className="h-2 w-2 rounded-full bg-destructive" />
-                            {t('outOfStock')}
+                        <span className="inline-flex items-center gap-2 text-[#ff3b30] font-medium">
+                            <span className="h-2 w-2 rounded-full bg-[#ff3b30]" />
+                            Out of Stock
                         </span>
                     )}
                 </div>
             )}
 
-            {/* Add to Cart Button */}
+            {/* Action Buttons - Apple-style CTAs */}
             <div className="pt-2 space-y-3">
+                {/* Primary CTA - Apple Blue */}
                 <Button
                     size="lg"
-                    className="w-full h-12 text-base font-semibold rounded-lg"
+                    className="w-full h-14 text-[17px] font-semibold rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white shadow-lg shadow-blue-500/25 transition-all duration-200"
                     disabled={!canAddToCart || isPending}
                     onClick={handleAddToCart}
                 >
                     {isAdded ? (
                         <>
                             <CheckCircle2 className="mr-2 h-5 w-5"/>
-                            {t('addedToCart')}
+                            Added to Cart
                         </>
                     ) : (
                         <>
                             <ShoppingCart className="mr-2 h-5 w-5"/>
                             {isPending
-                                ? t('adding')
+                                ? 'Adding...'
                                 : !selectedVariant && product.optionGroups.length > 0
-                                    ? t('selectOptions')
+                                    ? 'Select Options'
                                     : !isInStock
-                                        ? t('outOfStock')
-                                        : t('addToCart')}
+                                        ? 'Out of Stock'
+                                        : 'Add to Cart'}
                         </>
                     )}
                 </Button>
+
+                {/* Secondary CTA - Buy Now */}
+                <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full h-14 text-[17px] font-semibold rounded-full border-[#0071e3] text-[#0071e3] hover:bg-[#0071e3] hover:text-white transition-all duration-200"
+                    disabled={!canAddToCart || isPending}
+                    onClick={handleBuyNow}
+                >
+                    <Zap className="mr-2 h-5 w-5" />
+                    Buy Now
+                </Button>
             </div>
 
-            {/* SKU */}
+            {/* SKU - Minimal at the bottom */}
             {selectedVariant && (
-                <div className="text-xs text-muted-foreground">
-                    {t('sku', {sku: selectedVariant.sku})}
+                <div className="text-xs text-[#86868b] pt-2">
+                    SKU: {selectedVariant.sku}
                 </div>
             )}
         </div>

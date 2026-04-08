@@ -18,7 +18,7 @@ function Calendar({
   showOutsideDays = true,
   captionLayout = "label",
   buttonVariant = "ghost",
-  locale,
+  
   formatters,
   components,
   ...props
@@ -37,7 +37,7 @@ function Calendar({
         className
       )}
       captionLayout={captionLayout}
-      locale={locale}
+      locale={languageCode: "en"}
       formatters={{
         formatMonthDropdown: (date) =>
           date.toLocaleString(locale?.code, { month: "short" }),
@@ -162,7 +162,7 @@ function Calendar({
           )
         },
         DayButton: ({ ...props }) => (
-          <CalendarDayButton locale={locale} {...props} />
+          <CalendarDayButton locale={languageCode: "en"} {...props} />
         ),
         WeekNumber: ({ children, ...props }) => {
           return (
@@ -184,7 +184,7 @@ function CalendarDayButton({
   className,
   day,
   modifiers,
-  locale,
+  
   ...props
 }: React.ComponentProps<typeof DayButton> & { locale?: Partial<Locale> }) {
   const defaultClassNames = getDefaultClassNames()

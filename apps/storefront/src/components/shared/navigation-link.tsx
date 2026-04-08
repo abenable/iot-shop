@@ -1,5 +1,4 @@
 import NextLink from 'next/link';
-import {getRouteLocale} from '@/i18n/server';
 import {ComponentProps} from 'react';
 
 type NavigationLinkProps = Omit<ComponentProps<typeof NextLink>, 'href'> & {
@@ -13,10 +12,9 @@ type NavigationLinkProps = Omit<ComponentProps<typeof NextLink>, 'href'> & {
  * next-intl's Link always calls useLocale() internally which accesses
  * dynamic data and breaks PPR prerendering on routes with dynamic params.
  *
- * For client components, use Link from @/i18n/navigation instead.
+ * For client components, use Link from next/navigation instead.
  */
 export async function NavigationLink({href, ...rest}: NavigationLinkProps) {
-    const locale = await getRouteLocale();
-    const localizedHref = href === '/' ? `/${locale}` : `/${locale}${href}`;
+    const localizedHref = href === '/' ? `/en` : `/en${href}`;
     return <NextLink href={localizedHref} {...rest} />;
 }

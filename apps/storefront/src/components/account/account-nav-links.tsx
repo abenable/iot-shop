@@ -1,10 +1,10 @@
 'use client';
 
-import { Link, usePathname } from '@/i18n/navigation';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import {cn} from '@/lib/utils';
 import {Package, User, MapPin} from 'lucide-react';
 import type {LucideIcon} from 'lucide-react';
-import {useTranslations} from 'next-intl';
 
 const iconMap: Record<string, LucideIcon> = {
     Package,
@@ -25,11 +25,11 @@ interface AccountNavLinksProps {
 
 export function AccountNavLinks({items, layout}: AccountNavLinksProps) {
     const pathname = usePathname();
-    const t = useTranslations('Navigation');
+    
 
     if (layout === 'horizontal') {
         return (
-            <nav className="flex gap-1 overflow-x-auto border-b border-border pb-px">
+            <nav className="flex gap-1 overflow-x-auto bg-white rounded-2xl p-1.5 shadow-sm border border-[#d2d2d7]">
                 {items.map((item) => {
                     const isActive = pathname.startsWith(item.href);
                     const Icon = iconMap[item.icon];
@@ -38,10 +38,10 @@ export function AccountNavLinks({items, layout}: AccountNavLinksProps) {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                'flex items-center gap-2 px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors',
+                                'flex items-center gap-2 px-4 py-2.5 text-[15px] font-medium whitespace-nowrap rounded-xl transition-all duration-200',
                                 isActive
-                                    ? 'border-primary text-foreground'
-                                    : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
+                                    ? 'bg-[#0071e3] text-white shadow-sm'
+                                    : 'text-[#6e6e73] hover:text-[#1d1d1f] hover:bg-[#f5f5f7]'
                             )}
                         >
                             {Icon && <Icon className="h-4 w-4" />}
@@ -63,10 +63,10 @@ export function AccountNavLinks({items, layout}: AccountNavLinksProps) {
                         key={item.href}
                         href={item.href}
                         className={cn(
-                            'flex items-center gap-3 px-4 py-2 text-sm font-medium rounded-md transition-colors',
+                            'flex items-center gap-3 px-4 py-3 text-[15px] font-medium rounded-xl transition-all duration-200',
                             isActive
-                                ? 'bg-accent text-accent-foreground'
-                                : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                                ? 'bg-[#0071e3] text-white shadow-sm'
+                                : 'text-[#6e6e73] hover:text-[#1d1d1f] hover:bg-white'
                         )}
                     >
                         {Icon && <Icon className="h-5 w-5" />}

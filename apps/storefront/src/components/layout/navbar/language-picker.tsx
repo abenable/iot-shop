@@ -1,8 +1,6 @@
 'use client';
 
-import {useLocale, useTranslations} from 'next-intl';
-import {useRouter, usePathname} from '@/i18n/navigation';
-import {routing, localeNames} from '@/i18n/routing';
+import {useRouter, usePathname} from 'next/navigation';
 import {Globe} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {
@@ -13,8 +11,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export function LanguagePicker() {
-    const t = useTranslations('Navigation');
-    const locale = useLocale();
+    
+    
     const router = useRouter();
     const pathname = usePathname();
 

@@ -10,18 +10,29 @@ import {
     XCircle,
     type LucideIcon,
 } from 'lucide-react';
-import {useTranslations} from 'next-intl';
 
-const STATUS_CONFIG: Record<string, { color: string; icon: LucideIcon }> = {
-    AddingItems: {color: 'bg-gray-100 text-gray-800', icon: ShoppingCart},
-    ArrangingPayment: {color: 'bg-yellow-100 text-yellow-800', icon: CreditCard},
-    PaymentAuthorized: {color: 'bg-blue-100 text-blue-800', icon: Clock},
-    PaymentSettled: {color: 'bg-green-100 text-green-800', icon: CheckCircle},
-    PartiallyShipped: {color: 'bg-indigo-100 text-indigo-800', icon: Package},
-    Shipped: {color: 'bg-purple-100 text-purple-800', icon: Truck},
-    PartiallyDelivered: {color: 'bg-cyan-100 text-cyan-800', icon: PackageCheck},
-    Delivered: {color: 'bg-emerald-100 text-emerald-800', icon: PackageCheck},
-    Cancelled: {color: 'bg-red-100 text-red-800', icon: XCircle},
+const STATUS_CONFIG: Record<string, { variant: 'default' | 'secondary' | 'destructive' | 'outline' | 'success' | 'warning'; icon: LucideIcon }> = {
+    AddingItems: {variant: 'secondary', icon: ShoppingCart},
+    ArrangingPayment: {variant: 'warning', icon: CreditCard},
+    PaymentAuthorized: {variant: 'outline', icon: Clock},
+    PaymentSettled: {variant: 'success', icon: CheckCircle},
+    PartiallyShipped: {variant: 'outline', icon: Package},
+    Shipped: {variant: 'default', icon: Truck},
+    PartiallyDelivered: {variant: 'success', icon: PackageCheck},
+    Delivered: {variant: 'success', icon: PackageCheck},
+    Cancelled: {variant: 'destructive', icon: XCircle},
+};
+
+const STATUS_LABELS: Record<string, string> = {
+    AddingItems: 'Adding Items',
+    ArrangingPayment: 'Arranging Payment',
+    PaymentAuthorized: 'Payment Authorized',
+    PaymentSettled: 'Payment Settled',
+    PartiallyShipped: 'Partially Shipped',
+    Shipped: 'Shipped',
+    PartiallyDelivered: 'Partially Delivered',
+    Delivered: 'Delivered',
+    Cancelled: 'Cancelled',
 };
 
 interface OrderStatusBadgeProps {
@@ -29,14 +40,14 @@ interface OrderStatusBadgeProps {
 }
 
 export function OrderStatusBadge({state}: OrderStatusBadgeProps) {
-    const t = useTranslations('OrderStatus');
-    const config = STATUS_CONFIG[state] || {color: 'bg-gray-100 text-gray-800', icon: Clock};
+    
+    const config = STATUS_CONFIG[state] || {variant: 'outline' as const, icon: Clock};
     const Icon = config.icon;
-    const label = state in STATUS_CONFIG ? t(state as 'AddingItems' | 'ArrangingPayment' | 'PaymentAuthorized' | 'PaymentSettled' | 'PartiallyShipped' | 'Shipped' | 'PartiallyDelivered' | 'Delivered' | 'Cancelled') : state;
+    const label = STATUS_LABELS[state] || state;
 
     return (
-        <Badge className={config.color} variant="secondary">
-            <Icon className="h-3 w-3 mr-1"/>
+        <Badge variant={config.variant}>
+            <Icon className="h-3.5 w-3.5"/>
             {label}
         </Badge>
     );
