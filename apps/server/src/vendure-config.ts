@@ -47,6 +47,19 @@ export const config: VendureConfig = {
     adminApiPath: "admin-api",
     shopApiPath: "shop-api",
     trustProxy: IS_DEV ? false : 1,
+    cors: IS_DEV
+      ? {
+          origin: true,
+          credentials: true,
+        }
+      : {
+          origin: [
+            'https://iotex.tech',
+            'https://www.iotex.tech',
+            'https://admin.iotex.tech',
+          ],
+          credentials: true,
+        },
     ...(IS_DEV
       ? {
           adminApiDebug: true,
