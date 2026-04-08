@@ -71,17 +71,12 @@ export function NavbarUserClient() {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button 
-                    variant="ghost" 
-                    className="relative h-9 w-9 rounded-full"
-                >
-                    <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
-                            {getInitials()}
-                        </AvatarFallback>
-                    </Avatar>
-                </Button>
+            <DropdownMenuTrigger>
+                <Avatar className="h-8 w-8 cursor-pointer">
+                    <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
+                        {getInitials()}
+                    </AvatarFallback>
+                </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
                 <div className="flex items-center gap-2 p-2">
