@@ -13,13 +13,13 @@ export async function generateMetadata({
 
     const title = searchQuery
         ? `Search Results for "${searchQuery}"`
-        : 'Search';
+        : 'Browse Products';
 
     return {
         title,
         description: searchQuery
             ? `Find ${searchQuery} and more at ${SITE_NAME}`
-            : `Browse our catalog at ${SITE_NAME}`,
+            : `Browse our collection of quality electronics and IoT components at ${SITE_NAME}`,
         robots: noIndexRobots(),
     };
 }

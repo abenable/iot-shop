@@ -63,22 +63,7 @@ export async function SearchResults({searchParams}: SearchResultsProps) {
         );
     }
 
-    // No search query state
-    if (!searchQuery) {
-        return (
-            <div className="bg-white rounded-3xl shadow-sm border border-[#d2d2d7] p-12 sm:p-16 text-center">
-                <div className="w-20 h-20 bg-[#f5f5f7] rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Search className="h-10 w-10 text-[#86868b]" />
-                </div>
-                <h2 className="text-[24px] font-semibold text-[#1d1d1f] mb-3">
-                    Start Searching
-                </h2>
-                <p className="text-[17px] text-[#6e6e73] max-w-md mx-auto">
-                    Enter a keyword in the search box above to find products.
-                </p>
-            </div>
-        );
-    }
+
 
     return (
         <div className="flex flex-col lg:flex-row gap-8">
