@@ -4,6 +4,7 @@ import Link from "next/link";
 import {BadgeCheck, Tag, Zap, ArrowRight} from "lucide-react";
 import {SITE_NAME, SITE_URL, buildCanonicalUrl} from "@/lib/metadata";
 import {FeaturedProducts} from "@/components/commerce/featured-products";
+import {HeroSection} from "@/components/layout/hero-section";
 import {getTopCollections} from "@/lib/vendure/cached";
 import {cacheLife, cacheTag} from "next/cache";
 
@@ -110,39 +111,7 @@ export default function Home() {
     return (
         <main className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-background pb-8">
-                {/* Subtle gradient overlay */}
-                <div className="absolute inset-0 opacity-40 bg-gradient-to-b from-primary/10 to-transparent" />
-
-                <div className="relative z-10 max-w-[980px] mx-auto px-6 text-center">
-                    <h1 className="text-[48px] md:text-[64px] lg:text-[80px] font-semibold text-foreground mb-6 tracking-tight animate-in fade-in slide-in-from-top-4 duration-700">
-                        IoTex{' '}
-                        <span className="text-primary">Uganda</span>
-                    </h1>
-
-                    <p className="text-[21px] md:text-[24px] lg:text-[28px] text-muted-foreground max-w-[700px] mx-auto mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
-                        Your trusted source for quality electronics components in Uganda.
-                    </p>
-
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-                        {/* Primary CTA */}
-                        <Link
-                            href="/search"
-                            className="inline-flex items-center justify-center px-8 py-4 text-[17px] font-medium text-primary-foreground rounded-full transition-all duration-200 hover:opacity-90 bg-primary"
-                        >
-                            Shop Now
-                        </Link>
-
-                        {/* Secondary CTA */}
-                        <Link
-                            href="/search"
-                            className="inline-flex items-center justify-center px-8 py-4 text-[17px] font-medium rounded-full transition-all duration-200 border border-primary text-primary hover:bg-primary/10"
-                        >
-                            View Collections
-                        </Link>
-                    </div>
-                </div>
-            </section>
+            <HeroSection />
 
             {/* Why Shop With Us Section */}
             <section className="py-12 md:py-16 bg-muted">
